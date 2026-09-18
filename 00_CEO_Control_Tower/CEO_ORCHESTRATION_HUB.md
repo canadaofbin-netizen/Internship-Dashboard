@@ -7,7 +7,7 @@
 ## 📌 핵심 바로가기 및 마스터 자산 (Master Assets)
 
 - **통합 마스터 엑셀 트래커 (SSOT)**: [Master_Internship_Tracker_2027_SSOT.xlsx](file:///g:/My%20Drive/Kyubin_Yun_Workspace/04_Internship/Master_Internship_Tracker_2027_SSOT.xlsx)
-  - 글로벌 BCI 28개사, 영국 780+ 프로그램, 한국 55개 고영향 기회 등 850+개 전체 데이터 통합 및 직결 링크 탑재
+  - 글로벌 BCI 28개사, 영국 704개 프로그램(L1 20개 + 노이즈 정제 684개), 한국 55개 고영향 기회 등 787개 전체 데이터 통합 및 직결 링크 탑재
 - **세션 디스패치 및 복귀 프로토콜**: [HANDOFF_PROTOCOLS.md](file:///g:/My%20Drive/Kyubin_Yun_Workspace/04_Internship/00_CEO_Control_Tower/HANDOFF_PROTOCOLS.md)
 - **머신러닝/에이전트 세션 레지스트리**: [CHATROOM_REGISTRY.json](file:///g:/My%20Drive/Kyubin_Yun_Workspace/04_Internship/00_CEO_Control_Tower/CHATROOM_REGISTRY.json)
 - **CEO 오케스트레이션 거버넌스 규칙**: [Rule: CEO Orchestration Protocol](file:///g:/My%20Drive/Kyubin_Yun_Workspace/04_Internship/.agents/rules/ceo-orchestration-protocol.md)

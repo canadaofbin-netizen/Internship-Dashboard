@@ -510,6 +510,14 @@ def build_uk_tech_quant_finance_sheet(dst_ws, wb_uk):
 
     # 1. Tech & Software / AI roles (286 roles)
     for r in range(2, ws_tech.max_row + 1):
+        vals = [ws_tech.cell(r, c).value for c in range(1, ws_tech.max_column + 1)]
+        cid = vals[1] if len(vals) > 1 else ""
+        prog = vals[2] if len(vals) > 2 else ""
+        cat = vals[3] if len(vals) > 3 else ""
+
+        if is_uk_noise(cid, prog, cat):
+            continue
+
         dst_ws.row_dimensions[curr_row].height = 20
         c1 = dst_ws.cell(curr_row, 1, seq_no)
         c1.alignment = Alignment(horizontal="center", vertical="center")

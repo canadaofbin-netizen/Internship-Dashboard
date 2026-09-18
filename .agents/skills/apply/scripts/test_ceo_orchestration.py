@@ -5,6 +5,7 @@ including session registration, handoff brief generation,
 return synchronization, and Master SSOT Excel integrity.
 """
 
+import re
 import unittest
 
 import openpyxl
@@ -18,7 +19,6 @@ from ceo_hub import (
     list_rooms,
     load_registry,
     register_room,
-    save_registry,
     sync_return,
 )
 
@@ -48,6 +48,7 @@ class TestCEOOrchestration(unittest.TestCase):
 
     def test_room_registration_and_sync_lifecycle(self):
         test_sid = "ROOM-TEST-TEMP-999"
+        original_registry_bytes = REGISTRY_PATH.read_bytes()
         reg = load_registry()
         initial_count = len(reg.get("chatrooms", []))
 
@@ -91,10 +92,8 @@ class TestCEOOrchestration(unittest.TestCase):
             self.assertIn("Ephemeral task completed", updated_room["outcome_summary"])
 
         finally:
-            # Cleanup ephemeral test room
-            clean_reg = load_registry()
-            clean_reg["chatrooms"] = [r for r in clean_reg.get("chatrooms", []) if r.get("session_id") != test_sid]
-            save_registry(clean_reg)
+            # Restore exact original registry bytes to avoid leaving git tree dirty
+            REGISTRY_PATH.write_bytes(original_registry_bytes)
 
             # Clean up generated brief/return files if created
             test_brief = BRIEFS_DIR / f"{test_sid}_brief.md"
@@ -163,21 +162,44 @@ class TestCEOOrchestration(unittest.TestCase):
             f"Executive Dashboard must link to all 7 sub-sheets! Found: {found_subsheet_links}",
         )
 
-        # Verify 7.BCI_Research_DB telemetry columns are hidden
+        # Verify 7.BCI_Research_DB telemetry columns are hidden and exact row count
         ws_db = wb["7.BCI_Research_DB"]
+        self.assertEqual(ws_db.max_row, 85, "7.BCI_Research_DB must have exactly 85 rows (1 header + 84 contacts)")
         for col_letter in ["G", "H", "I", "J", "K"]:
             self.assertTrue(
                 ws_db.column_dimensions[col_letter].hidden,
                 f"Telemetry column {col_letter} in 7.BCI_Research_DB must be hidden in SSOT",
             )
 
-        # Verify 6.Global_BCI_Map hyperlinks point to 7.BCI_Research_DB
+        # Verify all 28 companies in 6.Global_BCI_Map have hyperlinks pointing to 7.BCI_Research_DB
         ws_bci = wb["6.Global_BCI_Map"]
-        self.assertIn("7.BCI_Research_DB", str(ws_bci["E2"].value))
+        self.assertEqual(ws_bci.max_row, 29, "6.Global_BCI_Map must have exactly 29 rows (1 header + 28 companies)")
+        for r in range(2, ws_bci.max_row + 1):
+            comp = str(ws_bci.cell(r, 1).value or "").strip().lower()
+            val = str(ws_bci.cell(r, 5).value or "")
+            match = re.search(r"#'7\.BCI_Research_DB'!A(\d+)", val)
+            self.assertIsNotNone(match, f"Row {r} invalid formula: {val}")
+            target_row = int(match.group(1))
+            db_comp = str(ws_db.cell(target_row, 1).value or "").strip().lower()
+            self.assertTrue(
+                comp in db_comp or db_comp in comp,
+                f"Row {r} company '{comp}' does not match DB row {target_row} company '{db_comp}'",
+            )
 
-        # Verify noise removal in 2.UK_Tech_Quant_Finance
+        # Verify noise removal and exact role counts in 2.UK_Tech_Quant_Finance
         ws_uk_tqf = wb["2.UK_Tech_Quant_Finance"]
-        self.assertGreater(ws_uk_tqf.max_row, 500)
+        self.assertEqual(
+            ws_uk_tqf.max_row, 685, "2.UK_Tech_Quant_Finance must have exactly 685 rows (1 header + 684 roles)"
+        )
+        tech_cnt = sum(
+            1 for r in range(2, ws_uk_tqf.max_row + 1) if ws_uk_tqf.cell(r, 2).value == "Tech & Software / AI"
+        )
+        fin_cnt = sum(
+            1 for r in range(2, ws_uk_tqf.max_row + 1) if ws_uk_tqf.cell(r, 2).value == "Quant & High-Finance"
+        )
+        self.assertEqual(tech_cnt, 286, f"Expected 286 Tech roles, got {tech_cnt}")
+        self.assertEqual(fin_cnt, 398, f"Expected 398 Finance roles, got {fin_cnt}")
+
         for r in range(2, ws_uk_tqf.max_row + 1):
             cat = str(ws_uk_tqf.cell(r, 5).value or "")
             self.assertNotIn("Pensions and Insurance", cat)
@@ -185,11 +207,15 @@ class TestCEOOrchestration(unittest.TestCase):
             self.assertNotIn("Real Estate", cat)
             self.assertNotIn("Big 4", cat)
 
-        # Verify sections exist in 4.KR_Tech_BCI and 5.KR_전략_대기업_금융
+        # Verify exact counts and sections in remaining sheets
+        self.assertEqual(wb["1.UK_Top_Targets"].max_row, 21, "1.UK_Top_Targets must have 21 rows (20 targets)")
+        self.assertEqual(
+            wb["3.KR_타임라인_우선순위"].max_row, 56, "3.KR_타임라인_우선순위 must have 56 rows (55 opportunities)"
+        )
         ws_kr_tech = wb["4.KR_Tech_BCI"]
-        self.assertGreaterEqual(ws_kr_tech.max_row, 30)
+        self.assertEqual(ws_kr_tech.max_row, 41, "4.KR_Tech_BCI must have 41 rows")
         ws_kr_corp = wb["5.KR_전략_대기업_금융"]
-        self.assertGreaterEqual(ws_kr_corp.max_row, 20)
+        self.assertEqual(ws_kr_corp.max_row, 30, "5.KR_전략_대기업_금융 must have 30 rows")
 
         wb.close()
 
