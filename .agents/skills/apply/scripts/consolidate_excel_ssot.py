@@ -25,6 +25,7 @@ Key Features:
 import re
 import sys
 from copy import copy
+from datetime import datetime
 from pathlib import Path
 
 if hasattr(sys.stdout, "reconfigure"):
@@ -88,6 +89,22 @@ def is_uk_noise(company_id: str, programme_name: str, categories: str) -> bool:
         if re.search(pattern, p_str) or re.search(pattern, c_str.lower()):
             return True
 
+    return False
+
+
+def is_uk_expired(closing_date) -> bool:
+    """Returns True if the UK closing date is strictly before 2026-09-18."""
+    c_str = str(closing_date or "").strip()
+    if not c_str or c_str in ("Rolling / Unspecified", "None", "nan"):
+        return False
+    if "T" in c_str:
+        try:
+            date_part = c_str.split("T")[0]
+            parts = [int(p) for p in date_part.split("-")]
+            closing_dt = datetime(parts[0], parts[1], parts[2])
+            return closing_dt < datetime(2026, 9, 18)
+        except Exception:
+            return False
     return False
 
 
@@ -219,8 +236,8 @@ def create_master_dashboard(ws):
 
     # Rows 6-8: KPI Metric Cards
     kpis = [
-        ("B", "C", "UK 2027 TECH & FINANCE", "704 Curated Roles", "Palantir (L1/L2), 684 Trackr Roles (Noise Purged)"),
-        ("D", "D", "KOREA HIGH-IMPACT", "55 Verified Roles", "KAIST BCI, Daangn, Toss, Samsung, Bain/McK"),
+        ("B", "C", "UK 2027 TECH & FINANCE", "685 Curated Roles", "Palantir (L1/L2 19선), 666 Trackr Roles (Noise & Expired Purged)"),
+        ("D", "D", "KOREA HIGH-IMPACT", "63 Verified Roles", "KAIST BCI, Daangn, Toss, Naver, Kakao, Samsung, Bain/McK"),
         ("E", "E", "GLOBAL BCI & NEUROTECH", "28 Firms / 84 Contacts", "Apple, Google, Meta, Neuralink, Synchron"),
         ("F", "G", "SYSTEM GOVERNANCE", "8-TAB SSOT / 100% AUDIT", "Zero Auto-Submit & Visible Whale Browser"),
     ]
@@ -286,33 +303,33 @@ def create_master_dashboard(ws):
             "1.UK_Top_Targets",
             "1.UK_Top_Targets",
             "UK 2027 Summer Tech & Finance",
-            "영국 L1/L2 최우선 타깃 엄선 20선 (Palantir 등)",
-            "20개 타깃",
-            "공식포털 단독발굴 및 L1 우선순위",
+            "영국 L1/L2 최우선 타깃 엄선 19선 (Palantir 등)",
+            "19개 타깃",
+            "공식포털 단독발굴 및 L1 우선순위 (마감 공고 정제)",
         ),
         (
             "2.UK_Tech_Quant_Finance",
             "2.UK_Tech_Quant_Finance",
             "UK 2027 Summer Tech & Finance",
             "영국 Tech, SWE, AI, Quant, Trading 유효 프로그램",
-            "684개 프로그램",
-            "회계/세무/보험/부동산 노이즈 79개사 전면 제거 완료",
+            "666개 프로그램",
+            "노이즈 79개사 및 마감 공고 18개사 전면 제거 완료",
         ),
         (
             "3.KR_타임라인_우선순위",
             "3.KR_타임라인_우선순위",
             "Korea Career 2026-2027",
-            "국내 55대 기회 전수 통합 일정 & 타임라인 및 우선순위",
-            "55개 기회",
-            "다가오는 순 정렬 및 역량 매칭",
+            "국내 63대 기회 전수 통합 일정 & 타임라인 및 우선순위",
+            "63개 기회",
+            "자소설닷컴/공식포털 교차검증 및 다가오는 순 정렬",
         ),
         (
             "4.KR_Tech_BCI",
             "4.KR_Tech_BCI",
             "Korea Tech & BCI Labs",
-            "DA/DS, AI Agent/LLM, EEG/BCI 연구실 (KAIST 등)",
-            "33개 기회",
-            "3개 테크 섹션 통합 편성 (DA/AI/BCI)",
+            "DA/DS/Product, AI Agent/LLM, EEG/BCI 연구실 (토스·네이버·카카오 등)",
+            "41개 기회",
+            "3개 테크 섹션 통합 편성 (DA 19 / AI 11 / BCI 11)",
         ),
         (
             "5.KR_전략_대기업_금융",
@@ -320,7 +337,7 @@ def create_master_dashboard(ws):
             "Korea Strategy, Conglomerate, Finance",
             "전략컨설팅 RA, 대기업 해외대 인턴(삼성전자), 외국계 IB",
             "22개 기회",
-            "3개 비즈니스 섹션 통합 편성 (전략/대기업/IB)",
+            "3개 비즈니스 섹션 통합 편성 (전략 11 / 대기업 5 / IB 6)",
         ),
         (
             "6.Global_BCI_Map",
@@ -514,14 +531,15 @@ def build_uk_tech_quant_finance_sheet(dst_ws, wb_uk):
     curr_row = 2
     seq_no = 1
 
-    # 1. Tech & Software / AI roles (286 roles)
+    # 1. Tech & Software / AI roles (276 active roles)
     for r in range(2, ws_tech.max_row + 1):
         vals = [ws_tech.cell(r, c).value for c in range(1, ws_tech.max_column + 1)]
         cid = vals[1] if len(vals) > 1 else ""
         prog = vals[2] if len(vals) > 2 else ""
         cat = vals[3] if len(vals) > 3 else ""
+        cdate = vals[6] if len(vals) > 6 else ""
 
-        if is_uk_noise(cid, prog, cat):
+        if is_uk_noise(cid, prog, cat) or is_uk_expired(cdate):
             continue
 
         dst_ws.row_dimensions[curr_row].height = 20
@@ -548,14 +566,15 @@ def build_uk_tech_quant_finance_sheet(dst_ws, wb_uk):
         seq_no += 1
         curr_row += 1
 
-    # 2. Quant & High-Finance roles (Noise filtered, 398 roles)
+    # 2. Quant & High-Finance roles (Noise & expired filtered, 390 active roles)
     for r in range(2, ws_fin.max_row + 1):
         vals = [ws_fin.cell(r, c).value for c in range(1, ws_fin.max_column + 1)]
         cid = vals[1] if len(vals) > 1 else ""
         prog = vals[2] if len(vals) > 2 else ""
         cat = vals[3] if len(vals) > 3 else ""
+        cdate = vals[6] if len(vals) > 6 else ""
 
-        if is_uk_noise(cid, prog, cat):
+        if is_uk_noise(cid, prog, cat) or is_uk_expired(cdate):
             continue
 
         dst_ws.row_dimensions[curr_row].height = 20
@@ -675,13 +694,13 @@ def build_kr_tech_bci_sheet(dst_ws, wb_kr):
     curr_row = append_korean_section(
         dst_ws,
         wb_kr["데이터사이언티스트_분석가"],
-        "  📊 [SECTION 1] 데이터사이언티스트 & 데이터 분석가 (14개 포지션 - 당근, 토스, 네이버, 카카오 등)",
+        "  📊 [SECTION 1] 데이터사이언티스트 & 데이터 분석가 / 프로덕트 (19개 포지션 - 당근, 토스, 네이버, 카카오 등)",
         curr_row,
     )
     curr_row = append_korean_section(
         dst_ws,
         wb_kr["AI_Agent_LLM_엔지니어"],
-        "  🤖 [SECTION 2] AI Agent & LLM 엔지니어 (8개 포지션 - 딥오토, 뤼튼, 스캐터랩 등)",
+        "  🤖 [SECTION 2] AI Agent & LLM 엔지니어 (11개 포지션 - 네이버, 카카오, 딥오토, 뤼튼, 당근 등)",
         curr_row,
     )
     curr_row = append_korean_section(
@@ -697,11 +716,11 @@ def build_kr_tech_bci_sheet(dst_ws, wb_kr):
     # Data Validation dropdown for Section 1 포지션 구분 (Col B)
     dv_pos_type = DataValidation(
         type="list",
-        formula1='"Data Analyst,Data Scientist,Business Analyst,Business / Ops Analyst"',
+        formula1='"Data Analyst,Data Scientist,Business Analyst,Business / Ops Analyst,Product Designer"',
         allow_blank=True,
     )
     dst_ws.add_data_validation(dv_pos_type)
-    dv_pos_type.add("B3:B16")
+    dv_pos_type.add(f"B3:B{2 + wb_kr['데이터사이언티스트_분석가'].max_row}")
 
 
 def build_kr_strategy_corp_finance_sheet(dst_ws, wb_kr):

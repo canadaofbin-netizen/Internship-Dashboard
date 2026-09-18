@@ -14,14 +14,14 @@
     },
     "TRACK-B": {
       "name": "UK 2027 Summer Tech & Finance",
-      "description": "UK summer internships in software engineering, product design, quant, and finance (Palantir, Trackr UK 704 curated & noise-purged roles)",
-      "target_count": 704,
+      "description": "UK summer internships in software engineering, product design, quant, and finance (Palantir, Trackr UK 685 curated, noise-purged & active roles)",
+      "target_count": 685,
       "sheet_ref": "1.UK_Top_Targets"
     },
     "TRACK-C": {
       "name": "Korea High-Impact Careers 2026-2027",
-      "description": "KAIST BCI research labs, tech data science (Daangn, Toss), consulting RA (Bain, McKinsey), and conglomerates (Samsung)",
-      "target_count": 55,
+      "description": "KAIST BCI research labs, tech data science & product design (Daangn, Toss, Naver, Kakao), consulting RA (Bain, McKinsey), and conglomerates (Samsung)",
+      "target_count": 63,
       "sheet_ref": "3.KR_타임라인_우선순위"
     },
     "TRACK-D": {

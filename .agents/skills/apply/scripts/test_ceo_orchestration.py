@@ -186,10 +186,10 @@ class TestCEOOrchestration(unittest.TestCase):
                 f"Row {r} company '{comp}' does not match DB row {target_row} company '{db_comp}'",
             )
 
-        # Verify noise removal and exact role counts in 2.UK_Tech_Quant_Finance
+        # Verify noise removal, expired purging, and exact role counts in 2.UK_Tech_Quant_Finance
         ws_uk_tqf = wb["2.UK_Tech_Quant_Finance"]
         self.assertEqual(
-            ws_uk_tqf.max_row, 685, "2.UK_Tech_Quant_Finance must have exactly 685 rows (1 header + 684 roles)"
+            ws_uk_tqf.max_row, 667, "2.UK_Tech_Quant_Finance must have exactly 667 rows (1 header + 666 roles)"
         )
         tech_cnt = sum(
             1 for r in range(2, ws_uk_tqf.max_row + 1) if ws_uk_tqf.cell(r, 2).value == "Tech & Software / AI"
@@ -197,8 +197,8 @@ class TestCEOOrchestration(unittest.TestCase):
         fin_cnt = sum(
             1 for r in range(2, ws_uk_tqf.max_row + 1) if ws_uk_tqf.cell(r, 2).value == "Quant & High-Finance"
         )
-        self.assertEqual(tech_cnt, 286, f"Expected 286 Tech roles, got {tech_cnt}")
-        self.assertEqual(fin_cnt, 398, f"Expected 398 Finance roles, got {fin_cnt}")
+        self.assertEqual(tech_cnt, 276, f"Expected 276 Tech roles, got {tech_cnt}")
+        self.assertEqual(fin_cnt, 390, f"Expected 390 Finance roles, got {fin_cnt}")
 
         for r in range(2, ws_uk_tqf.max_row + 1):
             cat = str(ws_uk_tqf.cell(r, 5).value or "")
@@ -206,14 +206,18 @@ class TestCEOOrchestration(unittest.TestCase):
             self.assertNotIn("Accounting and Audit", cat)
             self.assertNotIn("Real Estate", cat)
             self.assertNotIn("Big 4", cat)
+            cdate = str(ws_uk_tqf.cell(r, 8).value or "")
+            if "T" in cdate:
+                dt_part = cdate.split("T")[0]
+                self.assertGreaterEqual(dt_part, "2026-09-18", f"Expired role found at row {r}: {cdate}")
 
         # Verify exact counts and sections in remaining sheets
-        self.assertEqual(wb["1.UK_Top_Targets"].max_row, 21, "1.UK_Top_Targets must have 21 rows (20 targets)")
+        self.assertEqual(wb["1.UK_Top_Targets"].max_row, 20, "1.UK_Top_Targets must have 20 rows (19 targets)")
         self.assertEqual(
-            wb["3.KR_타임라인_우선순위"].max_row, 56, "3.KR_타임라인_우선순위 must have 56 rows (55 opportunities)"
+            wb["3.KR_타임라인_우선순위"].max_row, 64, "3.KR_타임라인_우선순위 must have 64 rows (63 opportunities)"
         )
         ws_kr_tech = wb["4.KR_Tech_BCI"]
-        self.assertEqual(ws_kr_tech.max_row, 41, "4.KR_Tech_BCI must have 41 rows")
+        self.assertEqual(ws_kr_tech.max_row, 49, "4.KR_Tech_BCI must have 49 rows")
         ws_kr_corp = wb["5.KR_전략_대기업_금융"]
         self.assertEqual(ws_kr_corp.max_row, 30, "5.KR_전략_대기업_금융 must have 30 rows")
 

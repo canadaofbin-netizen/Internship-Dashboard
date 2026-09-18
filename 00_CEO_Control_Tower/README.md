@@ -13,11 +13,11 @@ graph LR
     CEO --> KR["🇰🇷 한국 권역 (Crimson)"]
     CEO --> BCI["🧠 글로벌 BCI (Purple)"]
     
-    UK --> UK1["1.UK_Top_Targets (L1/L2 엄선 20선)"]
-    UK --> UK2["2.UK_Tech_Quant_Finance (유효 선별 684선)"]
+    UK --> UK1["1.UK_Top_Targets (L1/L2 엄선 19선)"]
+    UK --> UK2["2.UK_Tech_Quant_Finance (유효 선별 666선)"]
     
-    KR --> KR1["3.KR_타임라인_우선순위 (55개 통합일정)"]
-    KR --> KR2["4.KR_Tech_BCI (DA/AI에이전트/뇌공학 33선)"]
+    KR --> KR1["3.KR_타임라인_우선순위 (63개 통합일정)"]
+    KR --> KR2["4.KR_Tech_BCI (DA/Product/AI/뇌공학 41선)"]
     KR --> KR3["5.KR_전략_대기업_금융 (컨설팅RA/삼성/IB 22선)"]
     
     BCI --> BCI1["6.Global_BCI_Map (28개사)"]
@@ -31,10 +31,10 @@ graph LR
 | Tab # | Sheet Name | Color Theme | Domain Scope | Record Count | Description & Navigation Purpose |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **Tab 0** | **`0.CEO_Dashboard`** | 🟡 Gold (`#D4AF37`) | Executive Control | KPI Cards + Baseline | 전체 7개 서브시트 직결 하이퍼링크, 포트폴리오 요약 및 지원자 기준 데이터 |
-| **Tab 1** | **`1.UK_Top_Targets`** | 🔵 Navy (`#1F4E79`) | UK L1/L2 Priority | 20개 최우선 타깃 | Palantir(Product Design/FDSE), Tower Research, Man Group 등 공식포털 단독 발굴 |
-| **Tab 2** | **`2.UK_Tech_Quant_Finance`** | 🔵 Navy (`#1F4E79`) | UK Tech & High-Finance | 684개 유효 프로그램 | Trackr UK 테크(286선) + 퀀트/금융(398선) 통합. 노이즈 79개사 전면 배제 |
-| **Tab 3** | **`3.KR_타임라인_우선순위`** | 🔴 Crimson (`#C00000`) | Korea Career Master | 55개 고영향 기회 | 국내 6대 섹터 통합 타임라인, 마감 일정, 자격 요건 및 지원 우선순위 정렬 |
-| **Tab 4** | **`4.KR_Tech_BCI`** | 🔴 Crimson (`#C00000`) | Korea Tech / AI / BCI | 33개 기회 (3개 섹션) | DA/DS(14선) + AI Agent/LLM(8선) + EEG/BCI 뇌공학 연구실(KAIST 등 11선) 통합 |
+| **Tab 1** | **`1.UK_Top_Targets`** | 🔵 Navy (`#1F4E79`) | UK L1/L2 Priority | 19개 최우선 타깃 | Palantir(Product Design/FDSE), Tower Research, Man Group 등 공식포털 단독 발굴 (마감 공고 정제) |
+| **Tab 2** | **`2.UK_Tech_Quant_Finance`** | 🔵 Navy (`#1F4E79`) | UK Tech & High-Finance | 666개 유효 프로그램 | Trackr UK 테크(276선) + 퀀트/금융(390선) 통합. 노이즈 79개사 및 마감 공고 18개사 전면 배제 |
+| **Tab 3** | **`3.KR_타임라인_우선순위`** | 🔴 Crimson (`#C00000`) | Korea Career Master | 63개 고영향 기회 | 국내 6대 섹터 통합 타임라인, 자소설닷컴/공식포털 교차검증, 마감 일정 및 우선순위 정렬 |
+| **Tab 4** | **`4.KR_Tech_BCI`** | 🔴 Crimson (`#C00000`) | Korea Tech / AI / BCI | 41개 기회 (3개 섹션) | DA/Product(19선) + AI Agent/LLM(11선) + EEG/BCI 뇌공학 연구실(KAIST 등 11선) 통합 (토스·네이버·카카오 신규 발굴 반영) |
 | **Tab 5** | **`5.KR_전략_대기업_금융`** | 🔴 Crimson (`#C00000`) | Korea Strategy / IB | 22개 기회 (3개 섹션) | 전략컨설팅 RA(Bain/McK 11선) + 대기업 해외대(삼성 5선) + 외국계 IB(6선) 통합 |
 | **Tab 6** | **`6.Global_BCI_Map`** | 🟣 Purple (`#7030A0`) | Global BCI Enterprise | 28개사 글로벌 맵 | Apple, Google, Meta, Neuralink 등 28개사 우선순위 맵 & 7번 시트 직결 링크 |
 | **Tab 7** | **`7.BCI_Research_DB`** | 🟣 Purple (`#7030A0`) | BCI Research Contacts | 84명 핵심 연구자 | 기업별 연구 적합도, PI/Lead Scientist 컨택, 전략 훅 (텔레메트리 G~K 은닉) |
@@ -76,20 +76,20 @@ graph LR
 - **Reference**: `6.Global_BCI_Map` / `7.BCI_Research_DB`
 
 ### [TRACK-B] UK 2027 Summer Tech & Finance
-- **Target Scope**: Curated L1/L2 top-tier internships in London & UK (704 total opportunities).
+- **Target Scope**: Curated L1/L2 top-tier internships in London & UK (685 total opportunities: 19 Top Targets + 666 Trackr).
 - **Key Targets**:
   - **Palantir Technologies**: *Product Designer, Internship* & *Forward Deployed Software Engineer (FDSE) Intern*
   - **Tower Research Capital & Jump Trading**: *Quantitative Trader/Researcher Summer 2027*
   - **Man Group**: *2027 Quant Researcher Summer Internship*
   - **American Express**: *AI Engineer Internship Programme - 2027*
-- **Noise Elimination**: Excluded 79 irrelevant positions (Audit, Tax, Accounting, Actuarial, Pensions, Insurance, Real Estate).
+- **Noise & Expired Elimination**: Excluded 79 irrelevant noise positions (Audit, Tax, Accounting, Insurance 등) and 18 expired positions (Castleton Commodities closed 2026-09-13 등).
 - **Reference**: `1.UK_Top_Targets` / `2.UK_Tech_Quant_Finance`
 
 ### [TRACK-C] Korea High-Impact Careers 2026–2027
-- **Target Scope**: 55 rigorously verified high-impact opportunities across 6 key sectors:
+- **Target Scope**: 63 rigorously verified high-impact opportunities across 6 key sectors:
   1. Top BCI & EEG Labs (KAIST, Korea University, SNU - 11 labs)
-  2. Tech Data Science & Product Analytics (Daangn, Toss - 14 positions)
-  3. AI Agent & LLM Startups (DeepAuto, Wrtn, Scatter Lab - 8 positions)
+  2. Tech Data Science & Product Analytics / Design (Daangn, Toss, Naver, Kakao Pay - 19 positions)
+  3. AI Agent & LLM Tech Giants & Startups (Naver, Kakao, DeepAuto, Wrtn, Daangn - 11 positions)
   4. Global Strategy Consulting RA (Bain ACT, McKinsey, BCG - 11 positions)
   5. Conglomerates Global Internship (Samsung Electronics DX/DS Overseas University Summer - 5 tracks)
   6. Foreign Investment Banking & Quant (Morgan Stanley, Goldman Sachs, UBS Seoul - 6 programs)
