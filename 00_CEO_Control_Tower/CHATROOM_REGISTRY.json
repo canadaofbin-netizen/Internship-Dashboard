@@ -1,0 +1,87 @@
+{
+  "version": "1.0.0",
+  "hub_title": "CEO Executive Control Tower - Internship & Career Workspace",
+  "candidate": "Kyubin Yun",
+  "university": "University College London (UCL)",
+  "degree": "BSc Psychology and Language Sciences (Class of 2028)",
+  "updated_at": "2026-09-18T19:10:43.651150+00:00",
+  "tracks": {
+    "TRACK-A": {
+      "name": "Global BCI & Neurotech",
+      "description": "Top-tier brain-computer interface and neurotechnology enterprise roles (Apple, Google, Meta, Neuralink)",
+      "target_count": 28,
+      "sheet_ref": "1.Global_BCI_Map"
+    },
+    "TRACK-B": {
+      "name": "UK 2027 Summer Tech & Finance",
+      "description": "UK summer internships in software engineering, product design, quant, and finance (Palantir, Trackr UK 700+ roles)",
+      "target_count": 783,
+      "sheet_ref": "4.UK_Target_Master"
+    },
+    "TRACK-C": {
+      "name": "Korea High-Impact Careers 2026-2027",
+      "description": "KAIST BCI research labs, tech data science (Daangn, Toss), consulting RA (Bain, McKinsey), and conglomerates (Samsung)",
+      "target_count": 55,
+      "sheet_ref": "7.KR_통합일정_타임라인"
+    },
+    "TRACK-D": {
+      "name": "Data Science Roadmap & Technical Prep",
+      "description": "Machine learning projects, Python data science mastery, LeetCode / OA / SJT online assessment prep",
+      "target_count": 5,
+      "sheet_ref": "03_Data_Science_Roadmap"
+    }
+  },
+  "chatrooms": [
+    {
+      "session_id": "ROOM-GLOBAL-BCI-001",
+      "track": "TRACK-A",
+      "title": "Global BCI Target Dossier & Cold Outreach Preparation",
+      "status": "COMPLETED",
+      "priority": "HIGH",
+      "target_companies": [
+        "Apple",
+        "Google",
+        "Meta Reality Labs",
+        "Neuralink"
+      ],
+      "brief_file": "00_CEO_Control_Tower/sessions/briefs/ROOM-GLOBAL-BCI-001_brief.md",
+      "return_file": "00_CEO_Control_Tower/sessions/returns/ROOM-GLOBAL-BCI-001_return.md",
+      "created_at": "2026-08-01T00:00:00Z",
+      "updated_at": "2026-08-20T00:00:00Z",
+      "outcome_summary": "Initial 28 BCI companies researched, 84 contacts verified, dossier and tracker established."
+    },
+    {
+      "session_id": "ROOM-UK-PALANTIR-002",
+      "track": "TRACK-B",
+      "title": "Palantir Product Designer & FDSE Application Execution",
+      "status": "READY_FOR_DISPATCH",
+      "priority": "URGENT",
+      "target_companies": [
+        "Palantir Technologies"
+      ],
+      "brief_file": "00_CEO_Control_Tower/sessions/briefs/ROOM-UK-PALANTIR-002_brief.md",
+      "return_file": null,
+      "created_at": "2026-09-18T12:00:00Z",
+      "updated_at": "2026-09-18T13:58:00Z",
+      "outcome_summary": "Top priority L1 target. Application open on official portal. Ready for child chatroom dispatch."
+    },
+    {
+      "session_id": "ROOM-KR-RESEARCH-003",
+      "track": "TRACK-C",
+      "title": "Korea 55 Roles Exhaustive Audit & Report Consolidation",
+      "status": "COMPLETED",
+      "priority": "HIGH",
+      "target_companies": [
+        "KAIST BCI",
+        "Daangn",
+        "Bain & Company",
+        "Samsung Electronics"
+      ],
+      "brief_file": "00_CEO_Control_Tower/sessions/briefs/ROOM-KR-RESEARCH-003_brief.md",
+      "return_file": "00_CEO_Control_Tower/sessions/returns/ROOM-KR-RESEARCH-003_return.md",
+      "created_at": "2026-09-10T00:00:00Z",
+      "updated_at": "2026-09-17T00:00:00Z",
+      "outcome_summary": "Audited 8 sheets, generated 55-opportunity comprehensive report and integrated timeline."
+    }
+  ]
+}
