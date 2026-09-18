@@ -4,25 +4,25 @@
   "candidate": "Kyubin Yun",
   "university": "University College London (UCL)",
   "degree": "BSc Psychology and Language Sciences (Class of 2028)",
-  "updated_at": "2026-09-18T19:10:43.651150+00:00",
+  "updated_at": "2026-09-18T19:25:18.501190+00:00",
   "tracks": {
     "TRACK-A": {
       "name": "Global BCI & Neurotech",
       "description": "Top-tier brain-computer interface and neurotechnology enterprise roles (Apple, Google, Meta, Neuralink)",
       "target_count": 28,
-      "sheet_ref": "1.Global_BCI_Map"
+      "sheet_ref": "6.Global_BCI_Map"
     },
     "TRACK-B": {
       "name": "UK 2027 Summer Tech & Finance",
-      "description": "UK summer internships in software engineering, product design, quant, and finance (Palantir, Trackr UK 700+ roles)",
-      "target_count": 783,
-      "sheet_ref": "4.UK_Target_Master"
+      "description": "UK summer internships in software engineering, product design, quant, and finance (Palantir, Trackr UK 704 curated & noise-purged roles)",
+      "target_count": 704,
+      "sheet_ref": "1.UK_Top_Targets"
     },
     "TRACK-C": {
       "name": "Korea High-Impact Careers 2026-2027",
       "description": "KAIST BCI research labs, tech data science (Daangn, Toss), consulting RA (Bain, McKinsey), and conglomerates (Samsung)",
       "target_count": 55,
-      "sheet_ref": "7.KR_통합일정_타임라인"
+      "sheet_ref": "3.KR_타임라인_우선순위"
     },
     "TRACK-D": {
       "name": "Data Science Roadmap & Technical Prep",

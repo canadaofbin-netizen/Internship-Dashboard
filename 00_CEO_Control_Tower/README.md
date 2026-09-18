@@ -5,7 +5,7 @@
 
 ---
 
-## 🧭 Executive Architecture & Tab Structure
+## 🧭 Executive Architecture & 8-Tab Structure
 
 ```mermaid
 graph LR
@@ -13,16 +13,40 @@ graph LR
     CEO --> KR["🇰🇷 한국 권역 (Crimson)"]
     CEO --> BCI["🧠 글로벌 BCI (Purple)"]
     
-    UK --> UK1["1.UK_Top_Targets (L1/L2 엄선 25선)"]
-    UK --> UK2["2.UK_Tech_Quant_Finance (유효 선별 150선)"]
+    UK --> UK1["1.UK_Top_Targets (L1/L2 엄선 20선)"]
+    UK --> UK2["2.UK_Tech_Quant_Finance (유효 선별 684선)"]
     
     KR --> KR1["3.KR_타임라인_우선순위 (55개 통합일정)"]
-    KR --> KR2["4.KR_Tech_BCI (DA/AI에이전트/뇌공학)"]
-    KR --> KR3["5.KR_전략_대기업_금융 (컨설팅RA/삼성/IB)"]
+    KR --> KR2["4.KR_Tech_BCI (DA/AI에이전트/뇌공학 33선)"]
+    KR --> KR3["5.KR_전략_대기업_금융 (컨설팅RA/삼성/IB 22선)"]
     
     BCI --> BCI1["6.Global_BCI_Map (28개사)"]
     BCI --> BCI2["7.BCI_Research_DB (84명 연구자)"]
 ```
+
+---
+
+## 📊 Master 8-Tab Architecture Overview
+
+| Tab # | Sheet Name | Color Theme | Domain Scope | Record Count | Description & Navigation Purpose |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Tab 0** | **`0.CEO_Dashboard`** | 🟡 Gold (`#D4AF37`) | Executive Control | KPI Cards + Baseline | 전체 7개 서브시트 직결 하이퍼링크, 포트폴리오 요약 및 지원자 기준 데이터 |
+| **Tab 1** | **`1.UK_Top_Targets`** | 🔵 Navy (`#1F4E79`) | UK L1/L2 Priority | 20개 최우선 타깃 | Palantir(Product Design/FDSE), Tower Research, Man Group 등 공식포털 단독 발굴 |
+| **Tab 2** | **`2.UK_Tech_Quant_Finance`** | 🔵 Navy (`#1F4E79`) | UK Tech & High-Finance | 684개 유효 프로그램 | Trackr UK 테크(286선) + 퀀트/금융(398선) 통합. 노이즈 79개사 전면 배제 |
+| **Tab 3** | **`3.KR_타임라인_우선순위`** | 🔴 Crimson (`#C00000`) | Korea Career Master | 55개 고영향 기회 | 국내 6대 섹터 통합 타임라인, 마감 일정, 자격 요건 및 지원 우선순위 정렬 |
+| **Tab 4** | **`4.KR_Tech_BCI`** | 🔴 Crimson (`#C00000`) | Korea Tech / AI / BCI | 33개 기회 (3개 섹션) | DA/DS(14선) + AI Agent/LLM(8선) + EEG/BCI 뇌공학 연구실(KAIST 등 11선) 통합 |
+| **Tab 5** | **`5.KR_전략_대기업_금융`** | 🔴 Crimson (`#C00000`) | Korea Strategy / IB | 22개 기회 (3개 섹션) | 전략컨설팅 RA(Bain/McK 11선) + 대기업 해외대(삼성 5선) + 외국계 IB(6선) 통합 |
+| **Tab 6** | **`6.Global_BCI_Map`** | 🟣 Purple (`#7030A0`) | Global BCI Enterprise | 28개사 글로벌 맵 | Apple, Google, Meta, Neuralink 등 28개사 우선순위 맵 & 7번 시트 직결 링크 |
+| **Tab 7** | **`7.BCI_Research_DB`** | 🟣 Purple (`#7030A0`) | BCI Research Contacts | 84명 핵심 연구자 | 기업별 연구 적합도, PI/Lead Scientist 컨택, 전략 훅 (텔레메트리 G~K 은닉) |
+
+---
+
+## 🧹 UK Trackr Noise Purging (노이즈 정제 기준)
+
+사용자 직무 적합도(HCI / Cognitive Science, Data Science & AI, SWE, Quant, Strategy)와 무관한 직군 79개사를 전면 제거하여 데이터 밀도를 극대화했습니다:
+- **영구 배제 카테고리**: `Pensions and Insurance`, `Accounting and Audit`, `Real Estate`, `Big 4`
+- **배제 키워드**: `audit`, `tax`, `taxation`, `accounting`, `accountant`, `actuarial`, `actuary`, `pension`, `insurance`, `real estate`, `property`, `telecom`, `helpdesk`, `service desk`, `wealth planning`, `compliance`
+- **보존 직군**: Software Engineering, AI & Machine Learning, Data Science, Quant Trading, Quant Developer, Tech Consulting, Bulge Bracket & Elite Boutique Investment Banking, Asset Management, Strategy Consulting
 
 ---
 
@@ -34,6 +58,12 @@ graph LR
 | **Institution** | **University College London (UCL)** | London, United Kingdom |
 | **Degree & Major** | **BSc Psychology and Language Sciences** | Focus: Cognitive Science, HCI, Computational Modeling |
 | **Work Authorization**| **UK Student Route Visa** (Full-Time Summer Work Permitted) | 2-Year Unsponsored Graduate Route Eligible |
+| **Academic Grade** | **Honours** (Achieved/Predicted: 70.5/100) | First Class Honours Range |
+| **Official Email** | `zcjtyun@ucl.ac.uk` | UCL Academic ID for all portals |
+| **Mobile Phone** | `+44 7787 442404` | UK Mobile (Country Code: `+44`) |
+| **UK Address** | 40 Merchant St, Brent Cross, Suite 638, London, NW2 8BB | Current UK Residence |
+| **Standard Password** | `Jeff0825!!` | General Portals (Greenhouse, Lever, etc.) |
+| **Workday Password** | `Jeff0825!!!!` | Workday Exclusive (Mandatory 12+ characters) |
 | **Core Target Roles** | Product Design / HCI, Data Analytics / Applied AI, BCI / Neurotech, Forward Deployed SWE, Strategy Consulting | High synergy with cognitive science & quantitative data analysis |
 
 ---
@@ -43,27 +73,27 @@ graph LR
 ### [TRACK-A] Global BCI & Neurotech
 - **Target Scope**: 28 Tier-1 Global BCI & Neurotechnology enterprises (Apple, Google, Meta Reality Labs, Neuralink, Synchron, Paradromics).
 - **Researcher Network**: 84 verified principal investigators and lead scientists for cold-outreach & academic collaboration.
-- **Reference**: `1.Global_BCI_Map` / `2.Research_Database`
+- **Reference**: `6.Global_BCI_Map` / `7.BCI_Research_DB`
 
 ### [TRACK-B] UK 2027 Summer Tech & Finance
-- **Target Scope**: Curated L1/L2 top-tier internships in London & UK.
+- **Target Scope**: Curated L1/L2 top-tier internships in London & UK (704 total opportunities).
 - **Key Targets**:
   - **Palantir Technologies**: *Product Designer, Internship* & *Forward Deployed Software Engineer (FDSE) Intern*
-  - **Tower Research Capital & Jump Trading**: *Quant Trading / ML Research Engineer*
-  - **Man Group**: *People Analytics & AI Transformation Analyst*
-  - **American Express & Bain & Company**: *AI Engineering Intern*
-- **Noise Elimination**: Excluded 350+ irrelevant positions (Audit, Tax, Accounting, Actuarial, Pensions, Insurance, Real Estate, general IT helpdesk).
-- **Reference**: `4.UK_Target_Master` / `UK_Top_Targets`
+  - **Tower Research Capital & Jump Trading**: *Quantitative Trader/Researcher Summer 2027*
+  - **Man Group**: *2027 Quant Researcher Summer Internship*
+  - **American Express**: *AI Engineer Internship Programme - 2027*
+- **Noise Elimination**: Excluded 79 irrelevant positions (Audit, Tax, Accounting, Actuarial, Pensions, Insurance, Real Estate).
+- **Reference**: `1.UK_Top_Targets` / `2.UK_Tech_Quant_Finance`
 
 ### [TRACK-C] Korea High-Impact Careers 2026–2027
 - **Target Scope**: 55 rigorously verified high-impact opportunities across 6 key sectors:
-  1. Top BCI & EEG Labs (KAIST, Korea University, SNU)
-  2. Tech Data Science & Product Analytics (Daangn, Toss)
-  3. AI Agent & LLM Startups (Naver AI, Wrtn, etc.)
-  4. Global Strategy Consulting RA (Bain ACT, McKinsey, BCG)
-  5. Conglomerates Global Internship (Samsung Electronics DX/DS Overseas University Summer)
-  6. Foreign Investment Banking & Quant
-- **Reference**: `7.KR_통합일정_타임라인` / `8.KR_종합요약_우선순위`
+  1. Top BCI & EEG Labs (KAIST, Korea University, SNU - 11 labs)
+  2. Tech Data Science & Product Analytics (Daangn, Toss - 14 positions)
+  3. AI Agent & LLM Startups (DeepAuto, Wrtn, Scatter Lab - 8 positions)
+  4. Global Strategy Consulting RA (Bain ACT, McKinsey, BCG - 11 positions)
+  5. Conglomerates Global Internship (Samsung Electronics DX/DS Overseas University Summer - 5 tracks)
+  6. Foreign Investment Banking & Quant (Morgan Stanley, Goldman Sachs, UBS Seoul - 6 programs)
+- **Reference**: `3.KR_타임라인_우선순위` / `4.KR_Tech_BCI` / `5.KR_전략_대기업_금융`
 
 ### [TRACK-D] Data Science Roadmap & Technical Prep
 - **Focus**: End-to-end Machine Learning mastery, Python for Data Science, LeetCode / Online Assessment (OA) / SJT preparation.
@@ -88,11 +118,11 @@ graph LR
 
 ```text
 04_Internship/
-├── Master_Internship_Tracker_2027_SSOT.xlsx   # Single Source of Truth Master Workbook
+├── Master_Internship_Tracker_2027_SSOT.xlsx   # Single Source of Truth Master Workbook (8 Tabs)
 ├── README.md                                   # Executive Dashboard Architecture
 ├── read.md                                     # Markdown Mirror
 ├── 00_CEO_Control_Tower/                       # CEO Orchestration Hub & Session Registry
-│   ├── CEO_ORCHESTRATION_HUB.md               # Main Dashboard
+│   ├── CEO_ORCHESTRATION_HUB.md               # Main Control Tower Dashboard
 │   ├── CHATROOM_REGISTRY.json                 # Machine-Readable Session Registry
 │   ├── HANDOFF_PROTOCOLS.md                   # Child Room Dispatch Protocols
 │   ├── reports/                               # Deep-Dive Research Reports

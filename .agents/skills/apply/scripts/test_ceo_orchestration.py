@@ -112,48 +112,84 @@ class TestCEOOrchestration(unittest.TestCase):
         wb = openpyxl.load_workbook(SSOT_EXCEL_PATH, data_only=False)
 
         expected_sheets = [
-            "0.CEO_Executive_Dashboard",
-            "1.Global_BCI_Map",
-            "2.Research_Database",
-            "3.Global_BCI_Filtered",
-            "4.UK_Target_Master",
-            "5.UK_Trackr_Tech",
-            "6.UK_Trackr_Finance",
-            "7.KR_통합일정_타임라인",
-            "8.KR_종합요약_우선순위",
-            "9.KR_EEG_BCI_연구실",
-            "10.KR_데이터사이언스_DA",
-            "11.KR_전략컨설팅_RA",
-            "12.KR_대기업_해외대하계",
-            "13.KR_외국계금융_IB",
-            "14.KR_AI_Agent_LLM",
-            "15.UK_Overview_Dashboard",
+            "0.CEO_Dashboard",
+            "1.UK_Top_Targets",
+            "2.UK_Tech_Quant_Finance",
+            "3.KR_타임라인_우선순위",
+            "4.KR_Tech_BCI",
+            "5.KR_전략_대기업_금융",
+            "6.Global_BCI_Map",
+            "7.BCI_Research_DB",
         ]
+        self.assertEqual(len(wb.sheetnames), 8, f"Expected exactly 8 sheets, got {len(wb.sheetnames)}: {wb.sheetnames}")
         for sheet_name in expected_sheets:
             self.assertIn(sheet_name, wb.sheetnames, f"Sheet {sheet_name} missing from Master SSOT Excel!")
 
-        # Verify Executive Dashboard links
-        ws_dash = wb["0.CEO_Executive_Dashboard"]
+        # Verify Tab Colors
+        expected_tab_colors = {
+            "0.CEO_Dashboard": "D4AF37",
+            "1.UK_Top_Targets": "1F4E79",
+            "2.UK_Tech_Quant_Finance": "1F4E79",
+            "3.KR_타임라인_우선순위": "C00000",
+            "4.KR_Tech_BCI": "C00000",
+            "5.KR_전략_대기업_금융": "C00000",
+            "6.Global_BCI_Map": "7030A0",
+            "7.BCI_Research_DB": "7030A0",
+        }
+        for sname, expected_hex in expected_tab_colors.items():
+            ws = wb[sname]
+            self.assertIsNotNone(ws.sheet_properties.tabColor, f"Tab color not set for {sname}")
+            actual_color = ws.sheet_properties.tabColor.rgb
+            self.assertTrue(
+                actual_color.endswith(expected_hex),
+                f"Tab color mismatch for {sname}: expected ending with {expected_hex}, got {actual_color}",
+            )
+
+        # Verify Executive Dashboard links to all 7 sub-sheets
+        ws_dash = wb["0.CEO_Dashboard"]
         self.assertGreater(ws_dash.max_row, 20)
-        link_found = False
+        found_subsheet_links = set()
         for row in ws_dash.iter_rows(values_only=False):
             for cell in row:
-                if str(cell.value).startswith("=HYPERLINK"):
-                    link_found = True
-                    break
-        self.assertTrue(link_found, "Executive Dashboard must contain HYPERLINK formulas to sub-sheets")
+                cell_str = str(cell.value or "")
+                if cell_str.startswith("=HYPERLINK"):
+                    for target_sheet in expected_sheets[1:]:
+                        if target_sheet in cell_str:
+                            found_subsheet_links.add(target_sheet)
 
-        # Verify 2.Research_Database telemetry columns are hidden
-        ws_db = wb["2.Research_Database"]
+        self.assertEqual(
+            found_subsheet_links,
+            set(expected_sheets[1:]),
+            f"Executive Dashboard must link to all 7 sub-sheets! Found: {found_subsheet_links}",
+        )
+
+        # Verify 7.BCI_Research_DB telemetry columns are hidden
+        ws_db = wb["7.BCI_Research_DB"]
         for col_letter in ["G", "H", "I", "J", "K"]:
             self.assertTrue(
                 ws_db.column_dimensions[col_letter].hidden,
-                f"Telemetry column {col_letter} in 2.Research_Database must be hidden in SSOT",
+                f"Telemetry column {col_letter} in 7.BCI_Research_DB must be hidden in SSOT",
             )
 
-        # Verify 1.Global_BCI_Map hyperlinks point to 2.Research_Database
-        ws_bci = wb["1.Global_BCI_Map"]
-        self.assertIn("2.Research_Database", str(ws_bci["E2"].value))
+        # Verify 6.Global_BCI_Map hyperlinks point to 7.BCI_Research_DB
+        ws_bci = wb["6.Global_BCI_Map"]
+        self.assertIn("7.BCI_Research_DB", str(ws_bci["E2"].value))
+
+        # Verify noise removal in 2.UK_Tech_Quant_Finance
+        ws_uk_tqf = wb["2.UK_Tech_Quant_Finance"]
+        self.assertGreater(ws_uk_tqf.max_row, 500)
+        for r in range(2, ws_uk_tqf.max_row + 1):
+            cat = str(ws_uk_tqf.cell(r, 5).value or "")
+            self.assertNotIn("Pensions and Insurance", cat)
+            self.assertNotIn("Accounting and Audit", cat)
+            self.assertNotIn("Real Estate", cat)
+            self.assertNotIn("Big 4", cat)
+
+        # Verify sections exist in 4.KR_Tech_BCI and 5.KR_전략_대기업_금융
+        ws_kr_tech = wb["4.KR_Tech_BCI"]
+        self.assertGreaterEqual(ws_kr_tech.max_row, 30)
+        ws_kr_corp = wb["5.KR_전략_대기업_금융"]
+        self.assertGreaterEqual(ws_kr_corp.max_row, 20)
 
         wb.close()
 

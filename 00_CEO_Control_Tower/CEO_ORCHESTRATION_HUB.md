@@ -24,9 +24,9 @@
 
 | 트랙 ID | 트랙 명칭 (Track Name) | 대상 도메인 및 기업군 | 규모 및 데이터 현황 | 현재 운영 상태 | 담당 시트 (SSOT Sheet) |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **TRACK-A** | **Global BCI & Neurotech** | Apple, Google, Meta, Neuralink 등 글로벌 탑티어 BCI | 28개 타깃 기업, 84명 핵심 연구자 | 연구 및 네트워킹 대기 | `1.Global_BCI_Map` / `2.Research_Database` |
-| **TRACK-B** | **UK 2027 Summer Tech & Fin** | Palantir, Amazon, Trackr UK 테크 286개 / 금융 477개 | 780+ 프로그램 (L1 20개 타깃 엄선) | **즉시 지원 착수 (Palantir 등)** | `4.UK_Target_Master` / `5.UK_Trackr_Tech` |
-| **TRACK-C** | **Korea High-Impact Careers** | KAIST BCI 랩, 당근/토스 DA, 베인/맥킨지 RA, 삼성전자 | 55개 전수 검증 기회 (6대 섹터) | 타임라인 모니터링 | `7.KR_통합일정_타임라인` / `8.KR_종합요약` |
+| **TRACK-A** | **Global BCI & Neurotech** | Apple, Google, Meta, Neuralink 등 글로벌 탑티어 BCI | 28개 타깃 기업, 84명 핵심 연구자 | 연구 및 네트워킹 대기 | `6.Global_BCI_Map` / `7.BCI_Research_DB` |
+| **TRACK-B** | **UK 2027 Summer Tech & Fin** | Palantir, Tower Research, Man Group, Trackr 700+선 | 704개 프로그램 (L1 20개 타깃 엄선 + 684개 노이즈 필터링) | **즉시 지원 착수 (Palantir 등)** | `1.UK_Top_Targets` / `2.UK_Tech_Quant_Finance` |
+| **TRACK-C** | **Korea High-Impact Careers** | KAIST BCI 랩, 당근/토스 DA, 베인/맥킨지 RA, 삼성전자 | 55개 전수 검증 기회 (6대 섹터) | 타임라인 모니터링 | `3.KR_타임라인_우선순위` / `4.KR_Tech_BCI` / `5.KR_전략_대기업_금융` |
 | **TRACK-D** | **Data Science & Tech Prep** | 머신러닝 로드맵, 파이썬 DS, 코딩테스트/OA/SJT | 2대 핵심 로드맵 + 실전 프로젝트 | 상시 역량 강화 | `03_Data_Science_Roadmap` |
 
 ---

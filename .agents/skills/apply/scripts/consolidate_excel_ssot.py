@@ -1,14 +1,28 @@
 #!/usr/bin/env python3
 """
-Consolidates all fragmented internship trackers into a single, unified Master SSOT workbook:
+Consolidates all fragmented internship trackers into a streamlined 8-tab Master SSOT workbook:
 Master_Internship_Tracker_2027_SSOT.xlsx
 
-Sources:
-1. 2027_Summer2_Internship/2027_BCI_Internship_Tracker.xlsx
-2. UK_2027_Summer_Internship_Trackr_Master.xlsx (or data/source_trackers/)
-3. Korea_Internship_Research_2026_2027.xlsx (or data/source_trackers/)
+New 8-Tab Architecture:
+  0.CEO_Dashboard (Gold - #D4AF37)
+  1.UK_Top_Targets (Navy Blue - #1F4E79)
+  2.UK_Tech_Quant_Finance (Navy Blue - #1F4E79)
+  3.KR_타임라인_우선순위 (Crimson Red - #C00000)
+  4.KR_Tech_BCI (Crimson Red - #C00000)
+  5.KR_전략_대기업_금융 (Crimson Red - #C00000)
+  6.Global_BCI_Map (Purple - #7030A0)
+  7.BCI_Research_DB (Purple - #7030A0)
+
+Key Features:
+- UK Trackr Noise Removal: Purged 79+ noise roles (Audit, Tax, Accounting, Actuarial, Pensions, Insurance, Real Estate, Big 4 audit).
+- UK Tech & Finance Consolidation: Single unified sheet with 'Stream / Track' indicator (Tech vs Quant/Finance) and sequential indexing.
+- Korea Consolidation: Stacks DA/DS, AI Agent/LLM, and EEG/BCI into Tab 4; Stacks Strategy RA, Conglomerate, and IB into Tab 5 with crimson section banners.
+- Direct Navigation: Tab 0 contains interactive =HYPERLINK formulas to all 7 sub-sheets.
+- BCI Cross-linking: Col E formulas in Tab 6 dynamically jump to corresponding company rows in Tab 7.
+- Telemetry Protection: Columns G-K in Tab 7 remain strictly hidden.
 """
 
+import re
 import sys
 from copy import copy
 from pathlib import Path
@@ -21,12 +35,82 @@ from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 
 WORKSPACE_ROOT = Path(r"G:\My Drive\Kyubin_Yun_Workspace\04_Internship")
 
+TAB_COLORS = {
+    "0.CEO_Dashboard": "D4AF37",  # Gold
+    "1.UK_Top_Targets": "1F4E79",  # Navy Blue
+    "2.UK_Tech_Quant_Finance": "1F4E79",  # Navy Blue
+    "3.KR_타임라인_우선순위": "C00000",  # Crimson Red
+    "4.KR_Tech_BCI": "C00000",  # Crimson Red
+    "5.KR_전략_대기업_금융": "C00000",  # Crimson Red
+    "6.Global_BCI_Map": "7030A0",  # Purple
+    "7.BCI_Research_DB": "7030A0",  # Purple
+}
+
+# Noise filtering criteria for UK Trackr
+UK_NOISE_KEYWORDS = [
+    "audit",
+    "tax",
+    "taxation",
+    "accounting",
+    "accountant",
+    "actuarial",
+    "actuary",
+    "pension",
+    "insurance",
+    "real estate",
+    "property",
+    "telecom",
+    "helpdesk",
+    "service desk",
+    "wealth planning",
+    "compliance",
+]
+UK_NOISE_CATEGORIES = [
+    "Pensions and Insurance",
+    "Accounting and Audit",
+    "Real Estate",
+    "Big 4",
+]
+
+
+def is_uk_noise(company_id: str, programme_name: str, categories: str) -> bool:
+    """Returns True if the UK role falls under excluded noise domains."""
+    c_str = str(categories or "").strip()
+    p_str = str(programme_name or "").strip().lower()
+
+    for nc in UK_NOISE_CATEGORIES:
+        if nc.lower() in c_str.lower():
+            return True
+
+    for nk in UK_NOISE_KEYWORDS:
+        pattern = r"\b" + re.escape(nk)
+        if re.search(pattern, p_str) or re.search(pattern, c_str.lower()):
+            return True
+
+    return False
+
 
 def find_source_file(candidates: list[Path]) -> Path:
     for c in candidates:
         if c.exists():
             return c
     raise FileNotFoundError(f"None of the candidate source paths exist: {candidates}")
+
+
+def copy_cell(src_cell, dst_cell):
+    """Deep-copies cell value, styles, and hyperlink."""
+    dst_cell.value = src_cell.value
+    if src_cell.has_style:
+        dst_cell.font = copy(src_cell.font)
+        dst_cell.border = copy(src_cell.border)
+        dst_cell.fill = copy(src_cell.fill)
+        dst_cell.number_format = copy(src_cell.number_format)
+        dst_cell.protection = copy(src_cell.protection)
+        dst_cell.alignment = copy(src_cell.alignment)
+    if src_cell.hyperlink:
+        dst_cell.hyperlink = copy(src_cell.hyperlink)
+    if src_cell.comment:
+        dst_cell.comment = copy(src_cell.comment)
 
 
 def copy_worksheet(src_ws, dst_ws):
@@ -65,8 +149,9 @@ def copy_worksheet(src_ws, dst_ws):
 
 
 def create_master_dashboard(ws):
-    """Builds the 0.CEO_Executive_Dashboard tab with navigation, KPIs, and ground truth."""
-    ws.title = "0.CEO_Executive_Dashboard"
+    """Builds the 0.CEO_Dashboard tab with navigation, KPIs, and ground truth."""
+    ws.title = "0.CEO_Dashboard"
+    ws.sheet_properties.tabColor = TAB_COLORS["0.CEO_Dashboard"]
     ws.views.sheetView[0].showGridLines = True
 
     # Color definitions
@@ -93,11 +178,11 @@ def create_master_dashboard(ws):
     col_widths = {
         "A": 4,  # margin
         "B": 28,  # Sheet / Key
-        "C": 24,  # Track / Category
-        "D": 45,  # Focus Scope / Description
-        "E": 14,  # Count / Status
-        "F": 25,  # Jump Link
-        "G": 30,  # Notes / Remarks
+        "C": 26,  # Track / Category
+        "D": 48,  # Focus Scope / Description
+        "E": 15,  # Count / Status
+        "F": 28,  # Jump Link
+        "G": 32,  # Notes / Remarks
     }
     for col, width in col_widths.items():
         ws.column_dimensions[col].width = width
@@ -113,7 +198,10 @@ def create_master_dashboard(ws):
 
     ws.merge_cells("B3:G3")
     cell_sub = ws["B3"]
-    cell_sub.value = "Candidate: Kyubin Yun (UCL BSc Psychology and Language Sciences, Class of 2028, Penultimate Year) | Zero Auto-Submit | SSOT Single Source of Truth"
+    cell_sub.value = (
+        "Candidate: Kyubin Yun (UCL BSc Psychology and Language Sciences, Class of 2028, Penultimate Year) | "
+        "Zero Auto-Submit | SSOT 8-Tab Unified Architecture"
+    )
     cell_sub.font = font_sub
     cell_sub.fill = navy_fill
     cell_sub.alignment = Alignment(horizontal="center", vertical="center")
@@ -122,7 +210,7 @@ def create_master_dashboard(ws):
     # Row 5: Section Header - Executive KPI Overview
     ws.merge_cells("B5:G5")
     s1 = ws["B5"]
-    s1.value = "  📊 EXECUTIVE PORTFOLIO SUMMARY (850+ TRACKED OPPORTUNITIES)"
+    s1.value = "  📊 EXECUTIVE PORTFOLIO SUMMARY (8-TAB STREAMLINED ARCHITECTURE)"
     s1.font = font_sec_head
     s1.fill = dark_header_fill
     s1.alignment = Alignment(horizontal="left", vertical="center")
@@ -130,28 +218,25 @@ def create_master_dashboard(ws):
 
     # Rows 6-8: KPI Metric Cards
     kpis = [
-        ("B", "C", "GLOBAL BCI & NEUROTECH", "28 Firms / 84 Contacts", "Apple, Google, Meta, Neuralink"),
-        ("D", "D", "UK 2027 TECH & FINANCE", "783 Roles (20 Curated)", "Palantir, Trackr UK Tech & Finance"),
-        ("E", "E", "KOREA TOP ROLES", "55 Verified Positions", "KAIST BCI, Daangn, Bain/McK, Samsung"),
-        ("F", "G", "SYSTEM STATUS", "SSOT READY / 100% AUDIT", "Zero Auto-Submit & Whale Browser Active"),
+        ("B", "C", "UK 2027 TECH & FINANCE", "704 Curated Roles", "Palantir (L1/L2), 684 Trackr Roles (Noise Purged)"),
+        ("D", "D", "KOREA HIGH-IMPACT", "55 Verified Roles", "KAIST BCI, Daangn, Toss, Samsung, Bain/McK"),
+        ("E", "E", "GLOBAL BCI & NEUROTECH", "28 Firms / 84 Contacts", "Apple, Google, Meta, Neuralink, Synchron"),
+        ("F", "G", "SYSTEM GOVERNANCE", "8-TAB SSOT / 100% AUDIT", "Zero Auto-Submit & Visible Whale Browser"),
     ]
 
     for start_col, end_col, title, main_val, sub_text in kpis:
-        # Title row 6
         cell_k_t = ws[f"{start_col}6"]
         cell_k_t.value = title
         cell_k_t.font = font_kpi_label
         cell_k_t.fill = kpi_card_fill
         cell_k_t.alignment = Alignment(horizontal="center", vertical="center")
 
-        # Main val row 7
         cell_k_v = ws[f"{start_col}7"]
         cell_k_v.value = main_val
         cell_k_v.font = font_kpi_num
         cell_k_v.fill = kpi_card_fill
         cell_k_v.alignment = Alignment(horizontal="center", vertical="center")
 
-        # Sub text row 8
         cell_k_s = ws[f"{start_col}8"]
         cell_k_s.value = sub_text
         cell_k_s.font = Font(name="Calibri", size=8, italic=True, color="595959")
@@ -169,7 +254,7 @@ def create_master_dashboard(ws):
     # Row 10: Section Header - Quick Navigation Directory
     ws.merge_cells("B10:G10")
     s2 = ws["B10"]
-    s2.value = "  🧭 MASTER SHEET DIRECTORY & INSTANT NAVIGATION (클릭 시 해당 시트로 이동)"
+    s2.value = "  🧭 MASTER 8-TAB DIRECTORY & INSTANT NAVIGATION (클릭 시 해당 시트로 직결 이동)"
     s2.font = font_sec_head
     s2.fill = dark_header_fill
     s2.alignment = Alignment(horizontal="left", vertical="center")
@@ -195,168 +280,97 @@ def create_master_dashboard(ws):
     ws.row_dimensions[11].height = 22
 
     # Nav rows definition:
-    # (Sheet Name, Target Sheet, Category, Scope, Count, Remarks)
     nav_data = [
         (
-            "1.Global_BCI_Map",
-            "1.Global_BCI_Map",
-            "Global BCI / Neurotech",
-            "글로벌 BCI & 테크 우선순위 맵 대시보드",
-            "28개사",
-            "Pastel Priority & Go to DB 링크",
-        ),
-        (
-            "2.Research_Database",
-            "2.Research_Database",
-            "Global BCI / Neurotech",
-            "기업별 리서치 적합도, 핵심 컨택 및 전략 훅",
-            "84행 (3행/사)",
-            "텔레메트리 G~K 은닉 준수",
-        ),
-        (
-            "3.Global_BCI_Filtered",
-            "3.Global_BCI_Filtered",
-            "Global BCI / Neurotech",
-            "석박사 전용 / 지원 조건 불일치 필터아웃 기업",
-            "10개사",
-            "추후 재검토용 아카이브",
-        ),
-        (
-            "4.UK_Target_Master",
-            "4.UK_Target_Master",
-            "UK 2027 Summer Tech",
-            "영국 하계인턴 1순위 타깃 (Palantir, Amazon 등)",
+            "1.UK_Top_Targets",
+            "1.UK_Top_Targets",
+            "UK 2027 Summer Tech & Finance",
+            "영국 L1/L2 최우선 타깃 엄선 20선 (Palantir 등)",
             "20개 타깃",
             "공식포털 단독발굴 및 L1 우선순위",
         ),
         (
-            "5.UK_Trackr_Tech",
-            "5.UK_Trackr_Tech",
-            "UK 2027 Summer Tech",
-            "영국 테크/SW/AI 하계인턴 전수 데이터",
-            "286개 프로그램",
-            "Trackr UK 검증 전수 DB",
+            "2.UK_Tech_Quant_Finance",
+            "2.UK_Tech_Quant_Finance",
+            "UK 2027 Summer Tech & Finance",
+            "영국 Tech, SWE, AI, Quant, Trading 유효 프로그램",
+            "684개 프로그램",
+            "회계/세무/보험/부동산 노이즈 79개사 전면 제거 완료",
         ),
         (
-            "6.UK_Trackr_Finance",
-            "6.UK_Trackr_Finance",
-            "UK 2027 Summer Finance",
-            "영국 퀀트/트레이딩/IB/컨설팅 하계인턴 전수 DB",
-            "477개 프로그램",
-            "Trackr UK 금융/컨설팅 전수",
-        ),
-        (
-            "7.KR_통합일정_타임라인",
-            "7.KR_통합일정_타임라인",
+            "3.KR_타임라인_우선순위",
+            "3.KR_타임라인_우선순위",
             "Korea Career 2026-2027",
-            "국내 55개 타깃 기회 통합 타임라인 및 마감일",
+            "국내 55대 기회 전수 통합 일정 & 타임라인 및 우선순위",
             "55개 기회",
             "다가오는 순 정렬 및 역량 매칭",
         ),
         (
-            "8.KR_종합요약_우선순위",
-            "8.KR_종합요약_우선순위",
-            "Korea Career 2026-2027",
-            "국내 핵심 18대 우선순위 기회 행동 계획",
-            "18개 타깃",
-            "플랫폼 공고 직결 링크 탑재",
+            "4.KR_Tech_BCI",
+            "4.KR_Tech_BCI",
+            "Korea Tech & BCI Labs",
+            "DA/DS, AI Agent/LLM, EEG/BCI 연구실 (KAIST 등)",
+            "33개 기회",
+            "3개 테크 섹션 통합 편성 (DA/AI/BCI)",
         ),
         (
-            "9.KR_EEG_BCI_연구실",
-            "9.KR_EEG_BCI_연구실",
-            "Korea Research Labs",
-            "KAIST/서울대/고려대 뇌공학·BCI 랩 인턴십",
-            "11개 랩",
-            "해외대 TrYBBE / 컨택 가이드",
+            "5.KR_전략_대기업_금융",
+            "5.KR_전략_대기업_금융",
+            "Korea Strategy, Conglomerate, Finance",
+            "전략컨설팅 RA, 대기업 해외대 인턴(삼성전자), 외국계 IB",
+            "22개 기회",
+            "3개 비즈니스 섹션 통합 편성 (전략/대기업/IB)",
         ),
         (
-            "10.KR_데이터사이언스_DA",
-            "10.KR_데이터사이언스_DA",
-            "Korea Tech / Data Science",
-            "당근/토스/네이버/카카오 DA 및 DS 인턴",
-            "14개 포지션",
-            "SQL, Python, A/B Test 매칭",
+            "6.Global_BCI_Map",
+            "6.Global_BCI_Map",
+            "Global BCI / Neurotech",
+            "글로벌 BCI & 뉴로테크 28개사 우선순위 맵",
+            "28개사",
+            "7번 시트 직결 링크 탑재",
         ),
         (
-            "11.KR_전략컨설팅_RA",
-            "11.KR_전략컨설팅_RA",
-            "Korea Strategy Consulting",
-            "Bain, McKinsey, BCG, LEK 등 리서치 어시스턴트",
-            "11개 포지션",
-            "케이스 투입 및 정량분석",
-        ),
-        (
-            "12.KR_대기업_해외대하계",
-            "12.KR_대기업_해외대하계",
-            "Korea Conglomerate",
-            "삼성전자 DX/DS, SK하이닉스 해외대 인턴십",
-            "5대 전형",
-            "정규직 전환 특전 (2~3월 접수)",
-        ),
-        (
-            "13.KR_외국계금융_IB",
-            "13.KR_외국계금융_IB",
-            "Korea Global Finance",
-            "모건스탠리, 골드만삭스, BofA 서울 오피스 인턴",
-            "6개 프로그램",
-            "영/국문 이중언어 & 정량모델링",
-        ),
-        (
-            "14.KR_AI_Agent_LLM",
-            "14.KR_AI_Agent_LLM",
-            "Korea AI Startups",
-            "뤼튼, 스캐터랩 등 AI Agent 및 LLM 엔지니어",
-            "8개 포지션",
-            "Agentic 프레임워크 실무 매칭",
-        ),
-        (
-            "15.UK_Overview_Dashboard",
-            "15.UK_Overview_Dashboard",
-            "UK Roadmap Summary",
-            "영국 2027 하계 마스터 로드맵 원본 대시보드",
-            "종합 요약",
-            "기지원 21개사 배제 필터",
+            "7.BCI_Research_DB",
+            "7.BCI_Research_DB",
+            "Global BCI / Neurotech",
+            "기업별 연구 적합도, PI/연구원 핵심 컨택 및 전략 훅",
+            "84명 (3명/사)",
+            "텔레메트리 G~K 은닉 준수",
         ),
     ]
 
     curr_row = 12
     for s_name, target_s, cat, scope, count_str, remark in nav_data:
-        # Col B: Sheet Name
         cb = ws[f"B{curr_row}"]
         cb.value = s_name
         cb.font = font_bold
         cb.border = table_border
         cb.alignment = Alignment(horizontal="left", vertical="center")
 
-        # Col C: Category
         cc = ws[f"C{curr_row}"]
         cc.value = cat
         cc.font = font_regular
         cc.border = table_border
         cc.alignment = Alignment(horizontal="left", vertical="center")
 
-        # Col D: Scope
         cd = ws[f"D{curr_row}"]
         cd.value = scope
         cd.font = font_regular
         cd.border = table_border
         cd.alignment = Alignment(horizontal="left", vertical="center")
 
-        # Col E: Count
         ce = ws[f"E{curr_row}"]
         ce.value = count_str
         ce.font = font_bold
         ce.border = table_border
         ce.alignment = Alignment(horizontal="center", vertical="center")
 
-        # Col F: Jump Link Formula
         cf = ws[f"F{curr_row}"]
         cf.value = f'=HYPERLINK("#\'{target_s}\'!A1", "➡️ {target_s} 바로가기")'
         cf.font = font_link
         cf.border = table_border
         cf.alignment = Alignment(horizontal="center", vertical="center")
 
-        # Col G: Remark
         cg = ws[f"G{curr_row}"]
         cg.value = remark
         cg.font = font_regular
@@ -443,22 +457,251 @@ def create_master_dashboard(ws):
         curr_row += 1
 
 
+def build_uk_tech_quant_finance_sheet(dst_ws, wb_uk):
+    """Builds Tab 2: 2.UK_Tech_Quant_Finance consolidating noise-filtered Tech & Finance roles."""
+    dst_ws.title = "2.UK_Tech_Quant_Finance"
+    dst_ws.sheet_properties.tabColor = TAB_COLORS["2.UK_Tech_Quant_Finance"]
+    dst_ws.views.sheetView[0].showGridLines = True
+
+    ws_tech = wb_uk["3.Trackr_UK_Tech_Full"]
+    ws_fin = wb_uk["4.Trackr_UK_Finance_Full"]
+
+    headers = [
+        "No",
+        "Stream / Track",
+        "Company ID",
+        "Programme Name",
+        "Categories",
+        "Locations",
+        "Visa Sponsorship",
+        "Closing Date",
+        "Application URL",
+    ]
+    col_widths = {
+        "A": 8,
+        "B": 24,
+        "C": 28,
+        "D": 55,
+        "E": 38,
+        "F": 22,
+        "G": 20,
+        "H": 24,
+        "I": 18,
+    }
+    for col, width in col_widths.items():
+        dst_ws.column_dimensions[col].width = width
+
+    h_fill = PatternFill(start_color="1F4E79", end_color="1F4E79", fill_type="solid")
+    h_font = Font(name="Calibri", size=10, bold=True, color="FFFFFF")
+    thin_side = Side(style="thin", color="D3D3D3")
+    tbl_border = Border(left=thin_side, right=thin_side, top=thin_side, bottom=thin_side)
+
+    for col_idx, h in enumerate(headers, 1):
+        c = dst_ws.cell(1, col_idx, h)
+        c.fill = h_fill
+        c.font = h_font
+        c.border = tbl_border
+        c.alignment = Alignment(horizontal="center", vertical="center")
+    dst_ws.row_dimensions[1].height = 24
+    dst_ws.freeze_panes = "A2"
+
+    curr_row = 2
+    seq_no = 1
+
+    # 1. Tech & Software / AI roles (286 roles)
+    for r in range(2, ws_tech.max_row + 1):
+        dst_ws.row_dimensions[curr_row].height = 20
+        c1 = dst_ws.cell(curr_row, 1, seq_no)
+        c1.alignment = Alignment(horizontal="center", vertical="center")
+        c1.border = tbl_border
+
+        c2 = dst_ws.cell(curr_row, 2, "Tech & Software / AI")
+        c2.alignment = Alignment(horizontal="center", vertical="center")
+        c2.font = Font(name="Calibri", size=9, bold=True, color="1F4E79")
+        c2.border = tbl_border
+
+        for c in range(2, ws_tech.max_column + 1):
+            src_cell = ws_tech.cell(r, c)
+            dst_cell = dst_ws.cell(curr_row, c + 1, src_cell.value)
+            if src_cell.has_style:
+                dst_cell.font = copy(src_cell.font)
+                dst_cell.border = tbl_border
+                dst_cell.alignment = copy(src_cell.alignment)
+            if src_cell.hyperlink:
+                dst_cell.hyperlink = copy(src_cell.hyperlink)
+        seq_no += 1
+        curr_row += 1
+
+    # 2. Quant & High-Finance roles (Noise filtered, 398 roles)
+    for r in range(2, ws_fin.max_row + 1):
+        vals = [ws_fin.cell(r, c).value for c in range(1, ws_fin.max_column + 1)]
+        cid = vals[1] if len(vals) > 1 else ""
+        prog = vals[2] if len(vals) > 2 else ""
+        cat = vals[3] if len(vals) > 3 else ""
+
+        if is_uk_noise(cid, prog, cat):
+            continue
+
+        dst_ws.row_dimensions[curr_row].height = 20
+        c1 = dst_ws.cell(curr_row, 1, seq_no)
+        c1.alignment = Alignment(horizontal="center", vertical="center")
+        c1.border = tbl_border
+
+        c2 = dst_ws.cell(curr_row, 2, "Quant & High-Finance")
+        c2.alignment = Alignment(horizontal="center", vertical="center")
+        c2.font = Font(name="Calibri", size=9, bold=True, color="2E75B6")
+        c2.border = tbl_border
+
+        for c in range(2, ws_fin.max_column + 1):
+            src_cell = ws_fin.cell(r, c)
+            dst_cell = dst_ws.cell(curr_row, c + 1, src_cell.value)
+            if src_cell.has_style:
+                dst_cell.font = copy(src_cell.font)
+                dst_cell.border = tbl_border
+                dst_cell.alignment = copy(src_cell.alignment)
+            if src_cell.hyperlink:
+                dst_cell.hyperlink = copy(src_cell.hyperlink)
+        seq_no += 1
+        curr_row += 1
+
+
+def append_korean_section(dst_ws, src_ws, title_text, curr_row, title_fill_hex="A61C1C") -> int:
+    """Appends a section banner and rows from a source worksheet into dst_ws."""
+    max_col = src_ws.max_column
+    t_fill = PatternFill(start_color=title_fill_hex, end_color=title_fill_hex, fill_type="solid")
+    t_font = Font(name="Calibri", size=11, bold=True, color="FFFFFF")
+    thin_side = Side(style="thin", color="D3D3D3")
+    tbl_border = Border(left=thin_side, right=thin_side, top=thin_side, bottom=thin_side)
+
+    # Section Title Banner
+    dst_ws.cell(curr_row, 1, title_text)
+    dst_ws.row_dimensions[curr_row].height = 24
+    for c in range(1, max_col + 1):
+        cell = dst_ws.cell(curr_row, c)
+        cell.fill = t_fill
+        cell.font = t_font
+        cell.alignment = Alignment(horizontal="left", vertical="center")
+    dst_ws.merge_cells(start_row=curr_row, start_column=1, end_row=curr_row, end_column=max_col)
+    curr_row += 1
+
+    # Header and Data rows
+    for r in range(1, src_ws.max_row + 1):
+        dst_ws.row_dimensions[curr_row].height = 22 if r == 1 else 20
+        for c in range(1, max_col + 1):
+            src_cell = src_ws.cell(r, c)
+            dst_cell = dst_ws.cell(curr_row, c, src_cell.value)
+            if src_cell.has_style:
+                dst_cell.font = copy(src_cell.font)
+                dst_cell.border = tbl_border
+                dst_cell.fill = copy(src_cell.fill)
+                dst_cell.number_format = copy(src_cell.number_format)
+                dst_cell.alignment = copy(src_cell.alignment)
+            if src_cell.hyperlink:
+                dst_cell.hyperlink = copy(src_cell.hyperlink)
+        curr_row += 1
+
+    curr_row += 1  # 1 blank row between sections
+    return curr_row
+
+
+def build_kr_tech_bci_sheet(dst_ws, wb_kr):
+    """Builds Tab 4: 4.KR_Tech_BCI consolidating DA/DS, AI Agent, and EEG/BCI research labs."""
+    dst_ws.title = "4.KR_Tech_BCI"
+    dst_ws.sheet_properties.tabColor = TAB_COLORS["4.KR_Tech_BCI"]
+    dst_ws.views.sheetView[0].showGridLines = True
+
+    col_widths = {
+        "A": 25,
+        "B": 30,
+        "C": 42,
+        "D": 30,
+        "E": 24,
+        "F": 48,
+        "G": 45,
+        "H": 38,
+        "I": 35,
+    }
+    for col, width in col_widths.items():
+        dst_ws.column_dimensions[col].width = width
+
+    curr_row = 1
+    curr_row = append_korean_section(
+        dst_ws,
+        wb_kr["데이터사이언티스트_분석가"],
+        "  📊 [SECTION 1] 데이터사이언티스트 & 데이터 분석가 (14개 포지션 - 당근, 토스, 네이버, 카카오 등)",
+        curr_row,
+    )
+    curr_row = append_korean_section(
+        dst_ws,
+        wb_kr["AI_Agent_LLM_엔지니어"],
+        "  🤖 [SECTION 2] AI Agent & LLM 엔지니어 (8개 포지션 - 딥오토, 뤼튼, 스캐터랩 등)",
+        curr_row,
+    )
+    curr_row = append_korean_section(
+        dst_ws,
+        wb_kr["EEG_뇌공학_BCI_생체신호"],
+        "  🧠 [SECTION 3] EEG / 뇌공학 / BCI 생체신호 연구실 (11개 랩 - KAIST, 서울대, 고려대 등)",
+        curr_row,
+    )
+
+
+def build_kr_strategy_corp_finance_sheet(dst_ws, wb_kr):
+    """Builds Tab 5: 5.KR_전략_대기업_금융 consolidating Strategy RA, Conglomerates, and IB."""
+    dst_ws.title = "5.KR_전략_대기업_금융"
+    dst_ws.sheet_properties.tabColor = TAB_COLORS["5.KR_전략_대기업_금융"]
+    dst_ws.views.sheetView[0].showGridLines = True
+
+    col_widths = {
+        "A": 30,
+        "B": 42,
+        "C": 26,
+        "D": 35,
+        "E": 48,
+        "F": 48,
+        "G": 48,
+        "H": 38,
+        "I": 36,
+    }
+    for col, width in col_widths.items():
+        dst_ws.column_dimensions[col].width = width
+
+    curr_row = 1
+    curr_row = append_korean_section(
+        dst_ws,
+        wb_kr["전략컨설팅_RA"],
+        "  💼 [SECTION 1] 전략컨설팅 RA (11개 포지션 - Bain ACT, McKinsey, BCG, LEK 등)",
+        curr_row,
+    )
+    curr_row = append_korean_section(
+        dst_ws,
+        wb_kr["대기업_해외대하계인턴_2027"],
+        "  🏢 [SECTION 2] 대기업 해외대 학부 하계인턴 2027 (5대 전형 - 삼성전자 DX/DS, SK하이닉스 등)",
+        curr_row,
+    )
+    curr_row = append_korean_section(
+        dst_ws,
+        wb_kr["외국계금융_IB_서울"],
+        "  📈 [SECTION 3] 외국계 금융 / 글로벌 IB 서울 오피스 (6개 프로그램 - 모건스탠리, 골드만삭스, BofA 등)",
+        curr_row,
+    )
+
+
 def build_master_ssot():
-    """Main orchestration function compiling the SSOT Excel workbook."""
-    print("🚀 Starting Master SSOT Excel Compilation...")
+    """Main orchestration function compiling the streamlined 8-tab SSOT Excel workbook."""
+    print("🚀 Starting Master SSOT Excel Compilation (8-Tab Streamlined Architecture)...")
 
     # Locate source files
     bci_candidates = [
-        WORKSPACE_ROOT / "2027_Summer2_Internship" / "2027_BCI_Internship_Tracker.xlsx",
         WORKSPACE_ROOT / "data" / "source_trackers" / "2027_BCI_Internship_Tracker.xlsx",
+        WORKSPACE_ROOT / "2027_Summer2_Internship" / "2027_BCI_Internship_Tracker.xlsx",
     ]
     uk_candidates = [
-        WORKSPACE_ROOT / "UK_2027_Summer_Internship_Trackr_Master.xlsx",
         WORKSPACE_ROOT / "data" / "source_trackers" / "UK_2027_Summer_Internship_Trackr_Master.xlsx",
+        WORKSPACE_ROOT / "UK_2027_Summer_Internship_Trackr_Master.xlsx",
     ]
     kr_candidates = [
-        WORKSPACE_ROOT / "Korea_Internship_Research_2026_2027.xlsx",
         WORKSPACE_ROOT / "data" / "source_trackers" / "Korea_Internship_Research_2026_2027.xlsx",
+        WORKSPACE_ROOT / "Korea_Internship_Research_2026_2027.xlsx",
     ]
 
     bci_path = find_source_file(bci_candidates)
@@ -475,42 +718,76 @@ def build_master_ssot():
 
     wb_master = openpyxl.Workbook()
 
-    # Sheet 0: Executive Dashboard
+    # Tab 0: 0.CEO_Dashboard (Gold)
+    print("  -> Creating [0.CEO_Dashboard] (Gold)...")
     ws_dash = wb_master.active
     create_master_dashboard(ws_dash)
 
-    # Sheet mapping: (Destination Sheet Name, Source Workbook, Source Sheet Name)
-    sheet_mappings = [
-        ("1.Global_BCI_Map", wb_bci, "1.Overview_Map"),
-        ("2.Research_Database", wb_bci, "2.Research_Database"),
-        ("3.Global_BCI_Filtered", wb_bci, "X.Filtered_Out"),
-        ("4.UK_Target_Master", wb_uk, "2.Target_Applications_Master"),
-        ("5.UK_Trackr_Tech", wb_uk, "3.Trackr_UK_Tech_Full"),
-        ("6.UK_Trackr_Finance", wb_uk, "4.Trackr_UK_Finance_Full"),
-        ("7.KR_통합일정_타임라인", wb_kr, "통합일정_타임라인"),
-        ("8.KR_종합요약_우선순위", wb_kr, "종합요약_우선순위"),
-        ("9.KR_EEG_BCI_연구실", wb_kr, "EEG_뇌공학_BCI_생체신호"),
-        ("10.KR_데이터사이언스_DA", wb_kr, "데이터사이언티스트_분석가"),
-        ("11.KR_전략컨설팅_RA", wb_kr, "전략컨설팅_RA"),
-        ("12.KR_대기업_해외대하계", wb_kr, "대기업_해외대하계인턴_2027"),
-        ("13.KR_외국계금융_IB", wb_kr, "외국계금융_IB_서울"),
-        ("14.KR_AI_Agent_LLM", wb_kr, "AI_Agent_LLM_엔지니어"),
-        ("15.UK_Overview_Dashboard", wb_uk, "1.Overview_Dashboard"),
-    ]
+    # Tab 1: 1.UK_Top_Targets (Navy Blue)
+    print("  -> Creating [1.UK_Top_Targets] (Navy Blue)...")
+    ws_uk_targets = wb_master.create_sheet(title="1.UK_Top_Targets")
+    copy_worksheet(wb_uk["2.Target_Applications_Master"], ws_uk_targets)
+    ws_uk_targets.sheet_properties.tabColor = TAB_COLORS["1.UK_Top_Targets"]
 
-    for dst_name, src_wb, src_name in sheet_mappings:
-        print(f"  -> Copying [{src_name}] into [{dst_name}]...")
-        dst_ws = wb_master.create_sheet(title=dst_name)
-        copy_worksheet(src_wb[src_name], dst_ws)
+    # Tab 2: 2.UK_Tech_Quant_Finance (Navy Blue)
+    print("  -> Creating [2.UK_Tech_Quant_Finance] (Navy Blue, Noise Purged)...")
+    ws_uk_tqf = wb_master.create_sheet(title="2.UK_Tech_Quant_Finance")
+    build_uk_tech_quant_finance_sheet(ws_uk_tqf, wb_uk)
 
-    # Ensure telemetry columns G-K remain hidden in 2.Research_Database
-    ws_db = wb_master["2.Research_Database"]
+    # Tab 3: 3.KR_타임라인_우선순위 (Crimson Red)
+    print("  -> Creating [3.KR_타임라인_우선순위] (Crimson Red)...")
+    ws_kr_time = wb_master.create_sheet(title="3.KR_타임라인_우선순위")
+    copy_worksheet(wb_kr["통합일정_타임라인"], ws_kr_time)
+    ws_kr_time.sheet_properties.tabColor = TAB_COLORS["3.KR_타임라인_우선순위"]
+
+    # Tab 4: 4.KR_Tech_BCI (Crimson Red)
+    print("  -> Creating [4.KR_Tech_BCI] (Crimson Red, 3 Sections)...")
+    ws_kr_tech = wb_master.create_sheet(title="4.KR_Tech_BCI")
+    build_kr_tech_bci_sheet(ws_kr_tech, wb_kr)
+
+    # Tab 5: 5.KR_전략_대기업_금융 (Crimson Red)
+    print("  -> Creating [5.KR_전략_대기업_금융] (Crimson Red, 3 Sections)...")
+    ws_kr_corp = wb_master.create_sheet(title="5.KR_전략_대기업_금융")
+    build_kr_strategy_corp_finance_sheet(ws_kr_corp, wb_kr)
+
+    # Tab 6: 6.Global_BCI_Map (Purple)
+    print("  -> Creating [6.Global_BCI_Map] (Purple)...")
+    ws_bci_map = wb_master.create_sheet(title="6.Global_BCI_Map")
+    copy_worksheet(wb_bci["1.Overview_Map"], ws_bci_map)
+    ws_bci_map.sheet_properties.tabColor = TAB_COLORS["6.Global_BCI_Map"]
+    # Update Column E jump hyperlinks to point to 7.BCI_Research_DB
+    for r in range(2, ws_bci_map.max_row + 1):
+        cell = ws_bci_map.cell(r, 5)
+        val_str = str(cell.value or "")
+        if "Research_Database" in val_str:
+            new_val = val_str.replace("2.Research_Database", "7.BCI_Research_DB")
+            cell.value = new_val
+
+    # Tab 7: 7.BCI_Research_DB (Purple)
+    print("  -> Creating [7.BCI_Research_DB] (Purple)...")
+    ws_bci_db = wb_master.create_sheet(title="7.BCI_Research_DB")
+    copy_worksheet(wb_bci["2.Research_Database"], ws_bci_db)
+    ws_bci_db.sheet_properties.tabColor = TAB_COLORS["7.BCI_Research_DB"]
+    # Ensure telemetry columns G-K remain hidden
     for col_letter in ["G", "H", "I", "J", "K"]:
-        ws_db.column_dimensions[col_letter].hidden = True
+        ws_bci_db.column_dimensions[col_letter].hidden = True
+
+    # Validate final sheets
+    expected_8_sheets = [
+        "0.CEO_Dashboard",
+        "1.UK_Top_Targets",
+        "2.UK_Tech_Quant_Finance",
+        "3.KR_타임라인_우선순위",
+        "4.KR_Tech_BCI",
+        "5.KR_전략_대기업_금융",
+        "6.Global_BCI_Map",
+        "7.BCI_Research_DB",
+    ]
+    assert wb_master.sheetnames == expected_8_sheets, f"Sheet mismatch: {wb_master.sheetnames}"
 
     # Save to Master SSOT file at root
     output_path = WORKSPACE_ROOT / "Master_Internship_Tracker_2027_SSOT.xlsx"
-    print(f"💾 Saving unified Master SSOT workbook to: {output_path}...")
+    print(f"💾 Saving unified 8-tab Master SSOT workbook to: {output_path}...")
     wb_master.save(output_path)
 
     # Close all workbooks
@@ -519,7 +796,7 @@ def build_master_ssot():
     wb_uk.close()
     wb_kr.close()
 
-    print("✅ Master SSOT Workbook compilation completed successfully!")
+    print("✅ Master SSOT Workbook compilation completed successfully (8 Tabs)!")
     return output_path
 
 

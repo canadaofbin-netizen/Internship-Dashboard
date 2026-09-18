@@ -196,9 +196,9 @@ PDF 자동 파싱이나 텍스트 복사 시 유입되는 추악한 서식 오�
 - **세션 레지스트리 관제**: `00_CEO_Control_Tower/CHATROOM_REGISTRY.json`을 통해 각 하위 챗룸의 생성, 미션 할당, 진행 상태 및 산출물을 실시간 추적합니다.
 
 ### 7.2 4대 전략 커리어 트랙 관리 체계
-1. **TRACK-A: Global BCI & Neurotech**: 애플, 구글, 메타, 뉴럴링크 등 글로벌 탑티어 BCI 28개사 및 84명 연구자 타깃 (`1.Global_BCI_Map` / `2.Research_Database`).
-2. **TRACK-B: UK 2027 Summer Tech & Finance**: 팔란티어(Product Design / FDSE) 및 Trackr UK 780+ 프로그램 전수 DB (`4.UK_Target_Master` / `5.UK_Trackr_Tech` / `6.UK_Trackr_Finance`).
-3. **TRACK-C: Korea High-Impact Careers**: KAIST BCI 랩, 당근/토스 DA, 베인/맥킨지 RA, 삼성전자 해외대 하계인턴 등 55개 전수 검증 기회 (`7.KR_통합일정_타임라인` 외 7개 시트).
+1. **TRACK-A: Global BCI & Neurotech**: 애플, 구글, 메타, 뉴럴링크 등 글로벌 탑티어 BCI 28개사 및 84명 연구자 타깃 (`6.Global_BCI_Map` / `7.BCI_Research_DB`).
+2. **TRACK-B: UK 2027 Summer Tech & Finance**: 팔란티어(Product Design / FDSE) 및 Trackr UK 704개 노이즈 필터링 DB (`1.UK_Top_Targets` / `2.UK_Tech_Quant_Finance`).
+3. **TRACK-C: Korea High-Impact Careers**: KAIST BCI 랩, 당근/토스 DA, 베인/맥킨지 RA, 삼성전자 해외대 하계인턴 등 55개 전수 검증 기회 (`3.KR_타임라인_우선순위` / `4.KR_Tech_BCI` / `5.KR_전략_대기업_금융`).
 4. **TRACK-D: Data Science Roadmap & Technical Prep**: ML 로드맵, 파이썬 DS 실무, 코딩테스트/OA/SJT 실전 대비.
 
 ### 7.3 4단계 미션 디스패치 및 결과 동기화 루프 (Lifecycle Loop)
