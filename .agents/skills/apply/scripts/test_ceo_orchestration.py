@@ -231,14 +231,15 @@ class TestCEOOrchestration(unittest.TestCase):
         self.assertGreaterEqual(ws0.column_dimensions["B"].width, 28.0)
         self.assertGreaterEqual(ws0.column_dimensions["D"].width, 48.0)
 
-        # 1. Sheet 1: UK Top Targets - Company Name prominent, D2 freeze, AutoFilter, DataValidation
+        # 1. Sheet 1: UK Top Targets - Company Name prominent, D2 freeze, full AutoFilter (A1:L), DataValidation
         ws1 = wb["1.UK_Top_Targets"]
         self.assertIn("기업명", str(ws1["C1"].value))
         self.assertIn("Company Name", str(ws1["C1"].value))
         self.assertEqual(ws1.freeze_panes, "D2")
         self.assertIsNotNone(ws1.auto_filter.ref)
-        self.assertTrue(ws1.auto_filter.ref.startswith("A1:K"))
-        self.assertGreaterEqual(ws1.column_dimensions["C"].width, 32.0)
+        self.assertEqual(ws1.auto_filter.ref, f"A1:L{ws1.max_row}")
+        self.assertGreaterEqual(ws1.column_dimensions["C"].width, 36.0)
+        self.assertGreaterEqual(ws1.column_dimensions["D"].width, 60.0)
         self.assertGreaterEqual(len(ws1.data_validations.dataValidation), 2)
 
         # 2. Sheet 2: UK Tech Quant Finance - Company Name prominent, D2 freeze, AutoFilter, DataValidation
@@ -247,8 +248,9 @@ class TestCEOOrchestration(unittest.TestCase):
         self.assertIn("Company Name", str(ws2["C1"].value))
         self.assertEqual(ws2.freeze_panes, "D2")
         self.assertIsNotNone(ws2.auto_filter.ref)
-        self.assertTrue(ws2.auto_filter.ref.startswith("A1:I"))
-        self.assertGreaterEqual(ws2.column_dimensions["C"].width, 32.0)
+        self.assertEqual(ws2.auto_filter.ref, f"A1:I{ws2.max_row}")
+        self.assertGreaterEqual(ws2.column_dimensions["C"].width, 40.0)
+        self.assertGreaterEqual(ws2.column_dimensions["D"].width, 80.0)
         self.assertGreaterEqual(len(ws2.data_validations.dataValidation), 2)
 
         # 3. Sheet 3: KR Timeline - Company Name prominent, B2 freeze, AutoFilter, DataValidation
@@ -257,25 +259,28 @@ class TestCEOOrchestration(unittest.TestCase):
         self.assertIn("Company Name", str(ws3["A1"].value))
         self.assertEqual(ws3.freeze_panes, "B2")
         self.assertIsNotNone(ws3.auto_filter.ref)
-        self.assertTrue(ws3.auto_filter.ref.startswith("A1:K"))
-        self.assertGreaterEqual(ws3.column_dimensions["A"].width, 32.0)
-        self.assertGreaterEqual(len(ws3.data_validations.dataValidation), 3)
+        self.assertEqual(ws3.auto_filter.ref, f"A1:K{ws3.max_row}")
+        self.assertGreaterEqual(ws3.column_dimensions["A"].width, 38.0)
+        self.assertGreaterEqual(ws3.column_dimensions["C"].width, 60.0)
+        self.assertGreaterEqual(len(ws3.data_validations.dataValidation), 4)
 
-        # 4. Sheet 4: KR Tech BCI - Company Name prominent, B3 freeze, AutoFilter
+        # 4. Sheet 4: KR Tech BCI - Company Name prominent, B3 freeze, AutoFilter, DataValidation
         ws4 = wb["4.KR_Tech_BCI"]
         self.assertIn("기업명", str(ws4["A2"].value))
         self.assertEqual(ws4.freeze_panes, "B3")
         self.assertIsNotNone(ws4.auto_filter.ref)
-        self.assertTrue(ws4.auto_filter.ref.startswith("A2:I"))
-        self.assertGreaterEqual(ws4.column_dimensions["A"].width, 32.0)
+        self.assertEqual(ws4.auto_filter.ref, f"A2:I{ws4.max_row}")
+        self.assertGreaterEqual(ws4.column_dimensions["A"].width, 36.0)
+        self.assertGreaterEqual(len(ws4.data_validations.dataValidation), 1)
 
-        # 5. Sheet 5: KR Strategy Corp Finance - Company Name prominent, B3 freeze, AutoFilter
+        # 5. Sheet 5: KR Strategy Corp Finance - Company Name prominent, B3 freeze, AutoFilter, DataValidation
         ws5 = wb["5.KR_전략_대기업_금융"]
         self.assertIn("기업명", str(ws5["A2"].value))
         self.assertEqual(ws5.freeze_panes, "B3")
         self.assertIsNotNone(ws5.auto_filter.ref)
-        self.assertTrue(ws5.auto_filter.ref.startswith("A2:I"))
-        self.assertGreaterEqual(ws5.column_dimensions["A"].width, 32.0)
+        self.assertEqual(ws5.auto_filter.ref, f"A2:I{ws5.max_row}")
+        self.assertGreaterEqual(ws5.column_dimensions["A"].width, 38.0)
+        self.assertGreaterEqual(len(ws5.data_validations.dataValidation), 1)
 
         # 6. Sheet 6: Global BCI Map - Company Name prominent, B2 freeze, AutoFilter, DataValidation
         ws6 = wb["6.Global_BCI_Map"]
@@ -283,18 +288,21 @@ class TestCEOOrchestration(unittest.TestCase):
         self.assertIn("기업명", str(ws6["A1"].value))
         self.assertEqual(ws6.freeze_panes, "B2")
         self.assertIsNotNone(ws6.auto_filter.ref)
-        self.assertTrue(ws6.auto_filter.ref.startswith("A1:E"))
-        self.assertGreaterEqual(ws6.column_dimensions["A"].width, 35.0)
+        self.assertEqual(ws6.auto_filter.ref, f"A1:E{ws6.max_row}")
+        self.assertGreaterEqual(ws6.column_dimensions["A"].width, 48.0)
+        self.assertGreaterEqual(ws6.column_dimensions["C"].width, 54.0)
+        self.assertGreaterEqual(ws6.column_dimensions["D"].width, 46.0)
         self.assertGreaterEqual(len(ws6.data_validations.dataValidation), 1)
 
-        # 7. Sheet 7: BCI Research DB - Company Name prominent, B2 freeze, AutoFilter
+        # 7. Sheet 7: BCI Research DB - Company Name prominent, B2 freeze, full AutoFilter (A1:K), DataValidation
         ws7 = wb["7.BCI_Research_DB"]
         self.assertIn("Company Name", str(ws7["A1"].value))
         self.assertIn("기업명", str(ws7["A1"].value))
         self.assertEqual(ws7.freeze_panes, "B2")
         self.assertIsNotNone(ws7.auto_filter.ref)
-        self.assertTrue(ws7.auto_filter.ref.startswith("A1:F"))
-        self.assertGreaterEqual(ws7.column_dimensions["A"].width, 35.0)
+        self.assertEqual(ws7.auto_filter.ref, f"A1:K{ws7.max_row}")
+        self.assertGreaterEqual(ws7.column_dimensions["A"].width, 48.0)
+        self.assertGreaterEqual(len(ws7.data_validations.dataValidation), 1)
 
         wb.close()
 

@@ -484,12 +484,12 @@ def build_uk_tech_quant_finance_sheet(dst_ws, wb_uk):
     col_widths = {
         "A": 8,
         "B": 26,
-        "C": 36,
-        "D": 62,
-        "E": 42,
+        "C": 42,  # Company Name / ID (increased from 36)
+        "D": 82,  # Programme Name (increased from 62)
+        "E": 55,  # Categories (increased from 42)
         "F": 26,
         "G": 20,
-        "H": 26,
+        "H": 28,  # Closing Date (increased from 26)
         "I": 20,
     }
     for col, width in col_widths.items():
@@ -658,15 +658,15 @@ def build_kr_tech_bci_sheet(dst_ws, wb_kr):
     dst_ws.views.sheetView[0].showGridLines = True
 
     col_widths = {
-        "A": 34,
-        "B": 32,
-        "C": 46,
-        "D": 32,
-        "E": 26,
-        "F": 50,
-        "G": 46,
-        "H": 40,
-        "I": 36,
+        "A": 38,  # 기업명 (Company Name) (increased from 34)
+        "B": 44,  # 포지션 구분 / 연구실 (increased from 32, max visual len is 39)
+        "C": 46,  # 포지션명 / 담당 교수
+        "D": 46,  # 근무 기간 / 연구 주제 (increased from 32, max visual len is 63)
+        "E": 36,  # 마감 일정 / 프로젝트 (increased from 26)
+        "F": 52,  # 담당 업무 (increased from 50)
+        "G": 48,  # 기술 스택 (increased from 46)
+        "H": 42,  # 비즈니스 도메인 (increased from 40)
+        "I": 38,  # 링크 (increased from 36)
     }
     for col, width in col_widths.items():
         dst_ws.column_dimensions[col].width = width
@@ -694,6 +694,15 @@ def build_kr_tech_bci_sheet(dst_ws, wb_kr):
     dst_ws.freeze_panes = "B3"
     dst_ws.auto_filter.ref = f"A2:I{dst_ws.max_row}"
 
+    # Data Validation dropdown for Section 1 포지션 구분 (Col B)
+    dv_pos_type = DataValidation(
+        type="list",
+        formula1='"Data Analyst,Data Scientist,Business Analyst,Business / Ops Analyst"',
+        allow_blank=True,
+    )
+    dst_ws.add_data_validation(dv_pos_type)
+    dv_pos_type.add("B3:B16")
+
 
 def build_kr_strategy_corp_finance_sheet(dst_ws, wb_kr):
     """Builds Tab 5: 5.KR_전략_대기업_금융 consolidating Strategy RA, Conglomerates, and IB."""
@@ -702,15 +711,15 @@ def build_kr_strategy_corp_finance_sheet(dst_ws, wb_kr):
     dst_ws.views.sheetView[0].showGridLines = True
 
     col_widths = {
-        "A": 36,
-        "B": 44,
-        "C": 30,
-        "D": 36,
-        "E": 50,
-        "F": 50,
-        "G": 50,
-        "H": 40,
-        "I": 36,
+        "A": 40,  # 기업명 (Company Name) (increased from 36)
+        "B": 48,  # 포지션명 / 전형 명칭 (increased from 44, max len is 44)
+        "C": 48,  # 근무 기간 / 모집 본부 (increased from 30, max len is 75)
+        "D": 42,  # 모집 주기 / 접수 시기 (increased from 36, max visual len is 38)
+        "E": 52,  # 주요 업무 (increased from 50)
+        "F": 52,  # 자격 요건 (increased from 50)
+        "G": 52,  # 접수처 (increased from 50)
+        "H": 42,  # 공식 링크 (increased from 40)
+        "I": 38,  # 비고 (increased from 36)
     }
     for col, width in col_widths.items():
         dst_ws.column_dimensions[col].width = width
@@ -738,6 +747,15 @@ def build_kr_strategy_corp_finance_sheet(dst_ws, wb_kr):
     dst_ws.freeze_panes = "B3"
     dst_ws.auto_filter.ref = f"A2:I{dst_ws.max_row}"
 
+    # Data Validation dropdown for Section 1 모집 주기 (Col D)
+    dv_cycle = DataValidation(
+        type="list",
+        formula1='"수시 채용,상시 채용,상시 수시 채용,연 1회 정기 공채,연 3회 정기 (봄/여름/겨울) & 수시,매년 가을 공채 (페널티메이트)"',
+        allow_blank=True,
+    )
+    dst_ws.add_data_validation(dv_cycle)
+    dv_cycle.add("D3:D13")
+
 
 def enhance_uk_top_targets_sheet(ws):
     """Enhances Tab 1 with prominent Company Name header, D2 freeze panes, AutoFilter, DataValidation, and wide columns."""
@@ -755,7 +773,7 @@ def enhance_uk_top_targets_sheet(ws):
         cell_c.alignment = Alignment(horizontal="left", vertical="center")
 
     ws.freeze_panes = "D2"
-    ws.auto_filter.ref = f"A1:K{ws.max_row}"
+    ws.auto_filter.ref = f"A1:L{ws.max_row}"
 
     # Data Validations
     dv_status = DataValidation(
@@ -773,16 +791,16 @@ def enhance_uk_top_targets_sheet(ws):
     col_widths = {
         "A": 8,
         "B": 14,
-        "C": 36,  # Company Name (increased from 26)
-        "D": 52,  # Position Title
+        "C": 38,  # Company Name (increased from 36)
+        "D": 62,  # Position Title (increased from 52, max text is 59)
         "E": 28,  # Source Type
-        "F": 28,  # Category
+        "F": 32,  # Category (increased from 28)
         "G": 18,  # Location
-        "H": 36,  # Eligibility & Visa
-        "I": 24,  # Closing / Cycle
+        "H": 42,  # Eligibility & Visa (increased from 36, max visual len is 37)
+        "I": 28,  # Closing / Cycle (increased from 24)
         "J": 18,  # Status
         "K": 22,  # Application Link
-        "L": 65,  # Strategic Fit
+        "L": 75,  # Strategic Fit (increased from 65)
     }
     for col, width in col_widths.items():
         ws.column_dimensions[col].width = width
@@ -825,18 +843,35 @@ def enhance_kr_timeline_sheet(ws):
     ws.add_data_validation(dv_cat)
     dv_cat.add(f"B2:B{ws.max_row}")
 
+    dv_stage = DataValidation(
+        type="list",
+        formula1=(
+            '"1. 2026년 9월 마감 (긴급),'
+            '2. 2026년 10월 마감 (긴급),'
+            '3. 상시 / 즉시 지원 (ASAP),'
+            '4. 2026년 12월 ~ 2027년 1월 (겨울 접수),'
+            '5. 2027년 2~3월 (대기업 상반기),'
+            '6. 2027년 3~4월 (현대차/연구실 사전컨택),'
+            '7. 2027년 5월 (KAIST/IBS 하계인턴),'
+            '8. 연중 수시 / 분기별 선발 (전략컨설팅 RA)"'
+        ),
+        allow_blank=True,
+    )
+    ws.add_data_validation(dv_stage)
+    dv_stage.add(f"D2:D{ws.max_row}")
+
     col_widths = {
-        "A": 38,  # 기업명 / 기관명 (increased from 22)
+        "A": 40,  # 기업명 / 기관명 (increased from 38)
         "B": 26,  # 카테고리/분야
-        "C": 46,  # 포지션 / 프로그램명
-        "D": 32,  # 타임라인 단계
-        "E": 26,  # 접수 / 마감 일정
-        "F": 22,  # 근무 / 실습 기간
-        "G": 40,  # 지원 자격
-        "H": 48,  # 주요 업무
+        "C": 65,  # 포지션 / 프로그램명 (increased from 46, max len is 104)
+        "D": 46,  # 타임라인 단계 (increased from 32, max visual len is 42 + dropdown)
+        "E": 34,  # 접수 / 마감 일정 (increased from 26, max visual len is 38)
+        "F": 28,  # 근무 / 실습 기간 (increased from 22, max visual len is 28)
+        "G": 42,  # 지원 자격 (increased from 40)
+        "H": 50,  # 주요 업무 (increased from 48)
         "I": 16,  # 지원 상태
         "J": 18,  # 우선순위
-        "K": 32,  # 공식 링크
+        "K": 34,  # 공식 링크 (increased from 32)
     }
     for col, width in col_widths.items():
         ws.column_dimensions[col].width = width
@@ -868,10 +903,10 @@ def enhance_global_bci_map_sheet(ws):
     dv_prio.add(f"B2:B{ws.max_row}")
 
     col_widths = {
-        "A": 42,  # Company Name (increased from 35)
+        "A": 50,  # Company Name (increased from 42, eliminates truncation of Sony 43 chars)
         "B": 26,  # Priority
-        "C": 38,  # Target Position
-        "D": 28,  # Opening Period (increased from 13)
+        "C": 56,  # Target Position (increased from 38, eliminates truncation of 51 chars)
+        "D": 48,  # Opening Period (increased from 28, eliminates truncation of 52 chars)
         "E": 26,  # Deep Dive Link
     }
     for col, width in col_widths.items():
@@ -894,15 +929,24 @@ def enhance_bci_research_db_sheet(ws):
             cell_a.alignment = Alignment(horizontal="left", vertical="center")
 
     ws.freeze_panes = "B2"
-    ws.auto_filter.ref = f"A1:F{ws.max_row}"
+    ws.auto_filter.ref = f"A1:K{ws.max_row}"
+
+    # Data Validation for Verification_Status (Col G)
+    dv_verif = DataValidation(
+        type="list",
+        formula1='"VERIFIED_VALID,PENDING,UNVERIFIED"',
+        allow_blank=True,
+    )
+    ws.add_data_validation(dv_verif)
+    dv_verif.add(f"G2:G{ws.max_row}")
 
     col_widths = {
-        "A": 40,  # Company Name (increased from 30)
-        "B": 40,  # Reference URLs
-        "C": 40,  # Core Research Fit (increased from 13)
-        "D": 28,  # Target Title & Name (increased from 13)
-        "E": 36,  # Target Email
-        "F": 50,  # Strategy Hook
+        "A": 50,  # Company Name (increased from 40, eliminates truncation of Sony 43 chars)
+        "B": 42,  # Reference URLs (increased from 40)
+        "C": 42,  # Core Research Fit (increased from 40)
+        "D": 30,  # Target Title & Name (increased from 28)
+        "E": 38,  # Target Email (increased from 36)
+        "F": 52,  # Strategy Hook (increased from 50)
         "G": 13,  # Hidden telemetry
         "H": 13,
         "I": 13,
