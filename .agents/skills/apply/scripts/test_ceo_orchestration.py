@@ -219,6 +219,85 @@ class TestCEOOrchestration(unittest.TestCase):
 
         wb.close()
 
+    def test_company_name_headers_dropdowns_and_freeze_panes(self):
+        """Verifies company name visibility, prominent headers, AutoFilters, DataValidations,
+        freeze panes, and non-truncated column widths across all sheets in Master SSOT Excel.
+        """
+        wb = openpyxl.load_workbook(SSOT_EXCEL_PATH, data_only=False)
+
+        # 0. Sheet 0: CEO Dashboard - Directory AutoFilter & generous widths
+        ws0 = wb["0.CEO_Dashboard"]
+        self.assertEqual(ws0.auto_filter.ref, "B11:G18")
+        self.assertGreaterEqual(ws0.column_dimensions["B"].width, 28.0)
+        self.assertGreaterEqual(ws0.column_dimensions["D"].width, 48.0)
+
+        # 1. Sheet 1: UK Top Targets - Company Name prominent, D2 freeze, AutoFilter, DataValidation
+        ws1 = wb["1.UK_Top_Targets"]
+        self.assertIn("기업명", str(ws1["C1"].value))
+        self.assertIn("Company Name", str(ws1["C1"].value))
+        self.assertEqual(ws1.freeze_panes, "D2")
+        self.assertIsNotNone(ws1.auto_filter.ref)
+        self.assertTrue(ws1.auto_filter.ref.startswith("A1:K"))
+        self.assertGreaterEqual(ws1.column_dimensions["C"].width, 32.0)
+        self.assertGreaterEqual(len(ws1.data_validations.dataValidation), 2)
+
+        # 2. Sheet 2: UK Tech Quant Finance - Company Name prominent, D2 freeze, AutoFilter, DataValidation
+        ws2 = wb["2.UK_Tech_Quant_Finance"]
+        self.assertIn("기업명", str(ws2["C1"].value))
+        self.assertIn("Company Name", str(ws2["C1"].value))
+        self.assertEqual(ws2.freeze_panes, "D2")
+        self.assertIsNotNone(ws2.auto_filter.ref)
+        self.assertTrue(ws2.auto_filter.ref.startswith("A1:I"))
+        self.assertGreaterEqual(ws2.column_dimensions["C"].width, 32.0)
+        self.assertGreaterEqual(len(ws2.data_validations.dataValidation), 2)
+
+        # 3. Sheet 3: KR Timeline - Company Name prominent, B2 freeze, AutoFilter, DataValidation
+        ws3 = wb["3.KR_타임라인_우선순위"]
+        self.assertIn("기업명", str(ws3["A1"].value))
+        self.assertIn("Company Name", str(ws3["A1"].value))
+        self.assertEqual(ws3.freeze_panes, "B2")
+        self.assertIsNotNone(ws3.auto_filter.ref)
+        self.assertTrue(ws3.auto_filter.ref.startswith("A1:K"))
+        self.assertGreaterEqual(ws3.column_dimensions["A"].width, 32.0)
+        self.assertGreaterEqual(len(ws3.data_validations.dataValidation), 3)
+
+        # 4. Sheet 4: KR Tech BCI - Company Name prominent, B3 freeze, AutoFilter
+        ws4 = wb["4.KR_Tech_BCI"]
+        self.assertIn("기업명", str(ws4["A2"].value))
+        self.assertEqual(ws4.freeze_panes, "B3")
+        self.assertIsNotNone(ws4.auto_filter.ref)
+        self.assertTrue(ws4.auto_filter.ref.startswith("A2:I"))
+        self.assertGreaterEqual(ws4.column_dimensions["A"].width, 32.0)
+
+        # 5. Sheet 5: KR Strategy Corp Finance - Company Name prominent, B3 freeze, AutoFilter
+        ws5 = wb["5.KR_전략_대기업_금융"]
+        self.assertIn("기업명", str(ws5["A2"].value))
+        self.assertEqual(ws5.freeze_panes, "B3")
+        self.assertIsNotNone(ws5.auto_filter.ref)
+        self.assertTrue(ws5.auto_filter.ref.startswith("A2:I"))
+        self.assertGreaterEqual(ws5.column_dimensions["A"].width, 32.0)
+
+        # 6. Sheet 6: Global BCI Map - Company Name prominent, B2 freeze, AutoFilter, DataValidation
+        ws6 = wb["6.Global_BCI_Map"]
+        self.assertIn("Company Name", str(ws6["A1"].value))
+        self.assertIn("기업명", str(ws6["A1"].value))
+        self.assertEqual(ws6.freeze_panes, "B2")
+        self.assertIsNotNone(ws6.auto_filter.ref)
+        self.assertTrue(ws6.auto_filter.ref.startswith("A1:E"))
+        self.assertGreaterEqual(ws6.column_dimensions["A"].width, 35.0)
+        self.assertGreaterEqual(len(ws6.data_validations.dataValidation), 1)
+
+        # 7. Sheet 7: BCI Research DB - Company Name prominent, B2 freeze, AutoFilter
+        ws7 = wb["7.BCI_Research_DB"]
+        self.assertIn("Company Name", str(ws7["A1"].value))
+        self.assertIn("기업명", str(ws7["A1"].value))
+        self.assertEqual(ws7.freeze_panes, "B2")
+        self.assertIsNotNone(ws7.auto_filter.ref)
+        self.assertTrue(ws7.auto_filter.ref.startswith("A1:F"))
+        self.assertGreaterEqual(ws7.column_dimensions["A"].width, 35.0)
+
+        wb.close()
+
     def test_register_room_validation_errors(self):
         # 1. Test invalid session IDs (traversal, invalid chars, too short/empty)
         invalid_sids = [

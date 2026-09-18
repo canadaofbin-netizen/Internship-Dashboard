@@ -32,6 +32,7 @@ if hasattr(sys.stdout, "reconfigure"):
 
 import openpyxl
 from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
+from openpyxl.worksheet.datavalidation import DataValidation
 
 WORKSPACE_ROOT = Path(r"G:\My Drive\Kyubin_Yun_Workspace\04_Internship")
 
@@ -174,15 +175,15 @@ def create_master_dashboard(ws):
     thin_border_side = Side(style="thin", color="D3D3D3")
     table_border = Border(left=thin_border_side, right=thin_border_side, top=thin_border_side, bottom=thin_border_side)
 
-    # Set column widths
+    # Set column widths with generous margins
     col_widths = {
         "A": 4,  # margin
-        "B": 28,  # Sheet / Key
-        "C": 26,  # Track / Category
-        "D": 48,  # Focus Scope / Description
-        "E": 15,  # Count / Status
-        "F": 28,  # Jump Link
-        "G": 32,  # Notes / Remarks
+        "B": 30,  # Sheet / Key
+        "C": 28,  # Track / Category
+        "D": 50,  # Focus Scope / Description
+        "E": 16,  # Count / Status
+        "F": 30,  # Jump Link
+        "G": 34,  # Notes / Remarks
     }
     for col, width in col_widths.items():
         ws.column_dimensions[col].width = width
@@ -277,7 +278,7 @@ def create_master_dashboard(ws):
         cell_h.fill = sub_header_fill
         cell_h.alignment = Alignment(horizontal="center", vertical="center")
         cell_h.border = table_border
-    ws.row_dimensions[11].height = 22
+    ws.row_dimensions[11].height = 26
 
     # Nav rows definition:
     nav_data = [
@@ -380,6 +381,9 @@ def create_master_dashboard(ws):
         ws.row_dimensions[curr_row].height = 20
         curr_row += 1
 
+    # AutoFilter dropdown arrows on Directory table headers
+    ws.auto_filter.ref = f"B11:G{curr_row - 1}"
+
     # Section 3: Ground Truth Baseline & Protocol Rules
     curr_row += 1
     ws.merge_cells(f"B{curr_row}:G{curr_row}")
@@ -469,7 +473,7 @@ def build_uk_tech_quant_finance_sheet(dst_ws, wb_uk):
     headers = [
         "No",
         "Stream / Track",
-        "Company ID",
+        "Company Name / ID (기업명)",
         "Programme Name",
         "Categories",
         "Locations",
@@ -479,31 +483,33 @@ def build_uk_tech_quant_finance_sheet(dst_ws, wb_uk):
     ]
     col_widths = {
         "A": 8,
-        "B": 24,
-        "C": 28,
-        "D": 55,
-        "E": 38,
-        "F": 22,
+        "B": 26,
+        "C": 36,
+        "D": 62,
+        "E": 42,
+        "F": 26,
         "G": 20,
-        "H": 24,
-        "I": 18,
+        "H": 26,
+        "I": 20,
     }
     for col, width in col_widths.items():
         dst_ws.column_dimensions[col].width = width
 
     h_fill = PatternFill(start_color="1F4E79", end_color="1F4E79", fill_type="solid")
+    comp_h_fill = PatternFill(start_color="16365C", end_color="16365C", fill_type="solid")
     h_font = Font(name="Calibri", size=10, bold=True, color="FFFFFF")
+    comp_h_font = Font(name="Calibri", size=10, bold=True, color="FFFFFF")
     thin_side = Side(style="thin", color="D3D3D3")
     tbl_border = Border(left=thin_side, right=thin_side, top=thin_side, bottom=thin_side)
 
     for col_idx, h in enumerate(headers, 1):
         c = dst_ws.cell(1, col_idx, h)
-        c.fill = h_fill
-        c.font = h_font
+        c.fill = comp_h_fill if col_idx == 3 else h_fill
+        c.font = comp_h_font if col_idx == 3 else h_font
         c.border = tbl_border
         c.alignment = Alignment(horizontal="center", vertical="center")
-    dst_ws.row_dimensions[1].height = 24
-    dst_ws.freeze_panes = "A2"
+    dst_ws.row_dimensions[1].height = 28
+    dst_ws.freeze_panes = "D2"
 
     curr_row = 2
     seq_no = 1
@@ -535,6 +541,8 @@ def build_uk_tech_quant_finance_sheet(dst_ws, wb_uk):
                 dst_cell.font = copy(src_cell.font)
                 dst_cell.border = tbl_border
                 dst_cell.alignment = copy(src_cell.alignment)
+            if c + 1 == 3:
+                dst_cell.font = Font(name="Calibri", size=9, bold=True, color="1F4E79")
             if src_cell.hyperlink:
                 dst_cell.hyperlink = copy(src_cell.hyperlink)
         seq_no += 1
@@ -567,10 +575,24 @@ def build_uk_tech_quant_finance_sheet(dst_ws, wb_uk):
                 dst_cell.font = copy(src_cell.font)
                 dst_cell.border = tbl_border
                 dst_cell.alignment = copy(src_cell.alignment)
+            if c + 1 == 3:
+                dst_cell.font = Font(name="Calibri", size=9, bold=True, color="1F4E79")
             if src_cell.hyperlink:
                 dst_cell.hyperlink = copy(src_cell.hyperlink)
         seq_no += 1
         curr_row += 1
+
+    # AutoFilter dropdown arrows on entire table
+    dst_ws.auto_filter.ref = f"A1:I{dst_ws.max_row}"
+
+    # Data Validation dropdown lists
+    dv_stream = DataValidation(type="list", formula1='"Tech & Software / AI,Quant & High-Finance"', allow_blank=True)
+    dst_ws.add_data_validation(dv_stream)
+    dv_stream.add(f"B2:B{dst_ws.max_row}")
+
+    dv_visa = DataValidation(type="list", formula1='"Yes,No,N/A,Case-by-case"', allow_blank=True)
+    dst_ws.add_data_validation(dv_visa)
+    dv_visa.add(f"G2:G{dst_ws.max_row}")
 
 
 def append_korean_section(dst_ws, src_ws, title_text, curr_row, title_fill_hex="A61C1C") -> int:
@@ -594,16 +616,33 @@ def append_korean_section(dst_ws, src_ws, title_text, curr_row, title_fill_hex="
 
     # Header and Data rows
     for r in range(1, src_ws.max_row + 1):
-        dst_ws.row_dimensions[curr_row].height = 22 if r == 1 else 20
+        is_header = r == 1
+        dst_ws.row_dimensions[curr_row].height = 26 if is_header else 22
         for c in range(1, max_col + 1):
             src_cell = src_ws.cell(r, c)
-            dst_cell = dst_ws.cell(curr_row, c, src_cell.value)
+            val = src_cell.value
+            if is_header and c == 1:
+                val_str = str(val or "")
+                if "기업" in val_str:
+                    val = "기관 / 기업명 (Company Name)" if "기관" in val_str else "기업명 (Company Name)"
+            dst_cell = dst_ws.cell(curr_row, c, val)
             if src_cell.has_style:
                 dst_cell.font = copy(src_cell.font)
                 dst_cell.border = tbl_border
                 dst_cell.fill = copy(src_cell.fill)
                 dst_cell.number_format = copy(src_cell.number_format)
                 dst_cell.alignment = copy(src_cell.alignment)
+
+            if is_header:
+                if c == 1:
+                    dst_cell.font = Font(name="Calibri", size=10, bold=True, color="FFFFFF")
+                    dst_cell.fill = PatternFill(start_color="9C1818", end_color="9C1818", fill_type="solid")
+                    dst_cell.alignment = Alignment(horizontal="center", vertical="center")
+            else:
+                if c == 1:
+                    dst_cell.font = Font(name="Calibri", size=10, bold=True, color="C00000")
+                    dst_cell.alignment = Alignment(horizontal="left", vertical="center")
+
             if src_cell.hyperlink:
                 dst_cell.hyperlink = copy(src_cell.hyperlink)
         curr_row += 1
@@ -619,15 +658,15 @@ def build_kr_tech_bci_sheet(dst_ws, wb_kr):
     dst_ws.views.sheetView[0].showGridLines = True
 
     col_widths = {
-        "A": 25,
-        "B": 30,
-        "C": 42,
-        "D": 30,
-        "E": 24,
-        "F": 48,
-        "G": 45,
-        "H": 38,
-        "I": 35,
+        "A": 34,
+        "B": 32,
+        "C": 46,
+        "D": 32,
+        "E": 26,
+        "F": 50,
+        "G": 46,
+        "H": 40,
+        "I": 36,
     }
     for col, width in col_widths.items():
         dst_ws.column_dimensions[col].width = width
@@ -652,6 +691,9 @@ def build_kr_tech_bci_sheet(dst_ws, wb_kr):
         curr_row,
     )
 
+    dst_ws.freeze_panes = "B3"
+    dst_ws.auto_filter.ref = f"A2:I{dst_ws.max_row}"
+
 
 def build_kr_strategy_corp_finance_sheet(dst_ws, wb_kr):
     """Builds Tab 5: 5.KR_전략_대기업_금융 consolidating Strategy RA, Conglomerates, and IB."""
@@ -660,14 +702,14 @@ def build_kr_strategy_corp_finance_sheet(dst_ws, wb_kr):
     dst_ws.views.sheetView[0].showGridLines = True
 
     col_widths = {
-        "A": 30,
-        "B": 42,
-        "C": 26,
-        "D": 35,
-        "E": 48,
-        "F": 48,
-        "G": 48,
-        "H": 38,
+        "A": 36,
+        "B": 44,
+        "C": 30,
+        "D": 36,
+        "E": 50,
+        "F": 50,
+        "G": 50,
+        "H": 40,
         "I": 36,
     }
     for col, width in col_widths.items():
@@ -692,6 +734,187 @@ def build_kr_strategy_corp_finance_sheet(dst_ws, wb_kr):
         "  📈 [SECTION 3] 외국계 금융 / 글로벌 IB 서울 오피스 (6개 프로그램 - 모건스탠리, 골드만삭스, BofA 등)",
         curr_row,
     )
+
+    dst_ws.freeze_panes = "B3"
+    dst_ws.auto_filter.ref = f"A2:I{dst_ws.max_row}"
+
+
+def enhance_uk_top_targets_sheet(ws):
+    """Enhances Tab 1 with prominent Company Name header, D2 freeze panes, AutoFilter, DataValidation, and wide columns."""
+    ws.cell(1, 3).value = "Company Name (기업명)"
+    ws.row_dimensions[1].height = 28
+
+    # Prominent styling for Company Name header cell
+    ws.cell(1, 3).fill = PatternFill(start_color="16365C", end_color="16365C", fill_type="solid")
+    ws.cell(1, 3).font = Font(name="Calibri", size=10, bold=True, color="FFFFFF")
+
+    for r in range(2, ws.max_row + 1):
+        ws.row_dimensions[r].height = 22
+        cell_c = ws.cell(r, 3)
+        cell_c.font = Font(name="Calibri", size=10, bold=True, color="1F4E79")
+        cell_c.alignment = Alignment(horizontal="left", vertical="center")
+
+    ws.freeze_panes = "D2"
+    ws.auto_filter.ref = f"A1:K{ws.max_row}"
+
+    # Data Validations
+    dv_status = DataValidation(
+        type="list",
+        formula1='"To-Apply (L1),To-Apply (L2),Applied,Interview,Offer,Rejected,Saved"',
+        allow_blank=True,
+    )
+    ws.add_data_validation(dv_status)
+    dv_status.add(f"J2:J{ws.max_row}")
+
+    dv_tier = DataValidation(type="list", formula1='"L1 Tier,L2 Tier,L3 Tier"', allow_blank=True)
+    ws.add_data_validation(dv_tier)
+    dv_tier.add(f"B2:B{ws.max_row}")
+
+    col_widths = {
+        "A": 8,
+        "B": 14,
+        "C": 36,  # Company Name (increased from 26)
+        "D": 52,  # Position Title
+        "E": 28,  # Source Type
+        "F": 28,  # Category
+        "G": 18,  # Location
+        "H": 36,  # Eligibility & Visa
+        "I": 24,  # Closing / Cycle
+        "J": 18,  # Status
+        "K": 22,  # Application Link
+        "L": 65,  # Strategic Fit
+    }
+    for col, width in col_widths.items():
+        ws.column_dimensions[col].width = width
+
+
+def enhance_kr_timeline_sheet(ws):
+    """Enhances Tab 3 with prominent 기업명 header, B2 freeze panes, AutoFilter, DataValidation, and wide columns."""
+    ws.cell(1, 1).value = "기업명 / 기관명 (Company Name)"
+    ws.row_dimensions[1].height = 28
+
+    ws.cell(1, 1).fill = PatternFill(start_color="9C1818", end_color="9C1818", fill_type="solid")
+    ws.cell(1, 1).font = Font(name="Calibri", size=10, bold=True, color="FFFFFF")
+
+    for r in range(2, ws.max_row + 1):
+        ws.row_dimensions[r].height = 22
+        cell_a = ws.cell(r, 1)
+        cell_a.font = Font(name="Calibri", size=10, bold=True, color="C00000")
+        cell_a.alignment = Alignment(horizontal="left", vertical="center")
+
+    ws.freeze_panes = "B2"
+    ws.auto_filter.ref = f"A1:K{ws.max_row}"
+
+    dv_status = DataValidation(
+        type="list", formula1='"미지원,지원완료,서류합격,면접진행,최종합격,불합격"', allow_blank=True
+    )
+    ws.add_data_validation(dv_status)
+    dv_status.add(f"I2:I{ws.max_row}")
+
+    dv_prio = DataValidation(
+        type="list", formula1='"1순위 (최우선),2순위 (유력),3순위 (검토)"', allow_blank=True
+    )
+    ws.add_data_validation(dv_prio)
+    dv_prio.add(f"J2:J{ws.max_row}")
+
+    dv_cat = DataValidation(
+        type="list",
+        formula1='"AI_Agent_LLM,EEG_뇌공학_BCI,대기업_해외대,데이터사이언스,외국계금융_IB,전략컨설팅_RA"',
+        allow_blank=True,
+    )
+    ws.add_data_validation(dv_cat)
+    dv_cat.add(f"B2:B{ws.max_row}")
+
+    col_widths = {
+        "A": 38,  # 기업명 / 기관명 (increased from 22)
+        "B": 26,  # 카테고리/분야
+        "C": 46,  # 포지션 / 프로그램명
+        "D": 32,  # 타임라인 단계
+        "E": 26,  # 접수 / 마감 일정
+        "F": 22,  # 근무 / 실습 기간
+        "G": 40,  # 지원 자격
+        "H": 48,  # 주요 업무
+        "I": 16,  # 지원 상태
+        "J": 18,  # 우선순위
+        "K": 32,  # 공식 링크
+    }
+    for col, width in col_widths.items():
+        ws.column_dimensions[col].width = width
+
+
+def enhance_global_bci_map_sheet(ws):
+    """Enhances Tab 6 with prominent Company Name header, B2 freeze panes, AutoFilter, DataValidation, and wide columns."""
+    ws.cell(1, 1).value = "Company Name (기업명)"
+    ws.row_dimensions[1].height = 28
+
+    ws.cell(1, 1).fill = PatternFill(start_color="4A206B", end_color="4A206B", fill_type="solid")
+    ws.cell(1, 1).font = Font(name="Calibri", size=10, bold=True, color="FFFFFF")
+
+    for r in range(2, ws.max_row + 1):
+        ws.row_dimensions[r].height = 22
+        cell_a = ws.cell(r, 1)
+        cell_a.font = Font(name="Calibri", size=10, bold=True, color="7030A0")
+        cell_a.alignment = Alignment(horizontal="left", vertical="center")
+
+    ws.freeze_panes = "B2"
+    ws.auto_filter.ref = f"A1:E{ws.max_row}"
+
+    dv_prio = DataValidation(
+        type="list",
+        formula1='"Global Big Tech,UK Startup,US Startup,US/AUS Startup,KR Startup,KR Conglomerate"',
+        allow_blank=True,
+    )
+    ws.add_data_validation(dv_prio)
+    dv_prio.add(f"B2:B{ws.max_row}")
+
+    col_widths = {
+        "A": 42,  # Company Name (increased from 35)
+        "B": 26,  # Priority
+        "C": 38,  # Target Position
+        "D": 28,  # Opening Period (increased from 13)
+        "E": 26,  # Deep Dive Link
+    }
+    for col, width in col_widths.items():
+        ws.column_dimensions[col].width = width
+
+
+def enhance_bci_research_db_sheet(ws):
+    """Enhances Tab 7 with prominent Company Name header, B2 freeze panes, AutoFilter, and wide columns."""
+    ws.cell(1, 1).value = "Company Name (기업명)"
+    ws.row_dimensions[1].height = 28
+
+    ws.cell(1, 1).fill = PatternFill(start_color="4A206B", end_color="4A206B", fill_type="solid")
+    ws.cell(1, 1).font = Font(name="Calibri", size=10, bold=True, color="FFFFFF")
+
+    for r in range(2, ws.max_row + 1):
+        ws.row_dimensions[r].height = 20
+        cell_a = ws.cell(r, 1)
+        if cell_a.value:
+            cell_a.font = Font(name="Calibri", size=10, bold=True, color="7030A0")
+            cell_a.alignment = Alignment(horizontal="left", vertical="center")
+
+    ws.freeze_panes = "B2"
+    ws.auto_filter.ref = f"A1:F{ws.max_row}"
+
+    col_widths = {
+        "A": 40,  # Company Name (increased from 30)
+        "B": 40,  # Reference URLs
+        "C": 40,  # Core Research Fit (increased from 13)
+        "D": 28,  # Target Title & Name (increased from 13)
+        "E": 36,  # Target Email
+        "F": 50,  # Strategy Hook
+        "G": 13,  # Hidden telemetry
+        "H": 13,
+        "I": 13,
+        "J": 13,
+        "K": 13,
+    }
+    for col, width in col_widths.items():
+        ws.column_dimensions[col].width = width
+
+    # Ensure telemetry columns G-K remain hidden
+    for col_letter in ["G", "H", "I", "J", "K"]:
+        ws.column_dimensions[col_letter].hidden = True
 
 
 def build_master_ssot():
@@ -736,6 +959,7 @@ def build_master_ssot():
     ws_uk_targets = wb_master.create_sheet(title="1.UK_Top_Targets")
     copy_worksheet(wb_uk["2.Target_Applications_Master"], ws_uk_targets)
     ws_uk_targets.sheet_properties.tabColor = TAB_COLORS["1.UK_Top_Targets"]
+    enhance_uk_top_targets_sheet(ws_uk_targets)
 
     # Tab 2: 2.UK_Tech_Quant_Finance (Navy Blue)
     print("  -> Creating [2.UK_Tech_Quant_Finance] (Navy Blue, Noise Purged)...")
@@ -747,6 +971,7 @@ def build_master_ssot():
     ws_kr_time = wb_master.create_sheet(title="3.KR_타임라인_우선순위")
     copy_worksheet(wb_kr["통합일정_타임라인"], ws_kr_time)
     ws_kr_time.sheet_properties.tabColor = TAB_COLORS["3.KR_타임라인_우선순위"]
+    enhance_kr_timeline_sheet(ws_kr_time)
 
     # Tab 4: 4.KR_Tech_BCI (Crimson Red)
     print("  -> Creating [4.KR_Tech_BCI] (Crimson Red, 3 Sections)...")
@@ -770,15 +995,14 @@ def build_master_ssot():
         if "Research_Database" in val_str:
             new_val = val_str.replace("2.Research_Database", "7.BCI_Research_DB")
             cell.value = new_val
+    enhance_global_bci_map_sheet(ws_bci_map)
 
     # Tab 7: 7.BCI_Research_DB (Purple)
     print("  -> Creating [7.BCI_Research_DB] (Purple)...")
     ws_bci_db = wb_master.create_sheet(title="7.BCI_Research_DB")
     copy_worksheet(wb_bci["2.Research_Database"], ws_bci_db)
     ws_bci_db.sheet_properties.tabColor = TAB_COLORS["7.BCI_Research_DB"]
-    # Ensure telemetry columns G-K remain hidden
-    for col_letter in ["G", "H", "I", "J", "K"]:
-        ws_bci_db.column_dimensions[col_letter].hidden = True
+    enhance_bci_research_db_sheet(ws_bci_db)
 
     # Validate final sheets
     expected_8_sheets = [
