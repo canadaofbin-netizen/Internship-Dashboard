@@ -25,7 +25,7 @@ Key Features:
 import re
 import sys
 from copy import copy
-from datetime import datetime
+from datetime import date, datetime
 from pathlib import Path
 
 if hasattr(sys.stdout, "reconfigure"):
@@ -92,19 +92,43 @@ def is_uk_noise(company_id: str, programme_name: str, categories: str) -> bool:
     return False
 
 
-def is_uk_expired(closing_date) -> bool:
-    """Returns True if the UK closing date is strictly before 2026-09-18."""
-    c_str = str(closing_date or "").strip()
-    if not c_str or c_str in ("Rolling / Unspecified", "None", "nan"):
+def is_uk_expired(closing_date, reference_date: datetime = datetime(2026, 9, 18)) -> bool:
+    """Returns True if the closing date is strictly before reference_date (default: 2026-09-18).
+    Supports datetime/date objects, ISO 8601 strings, YYYY-MM-DD, YYYY.MM.DD, DD/MM/YYYY,
+    and strings with accompanying text (e.g., '2026-09-13 마감').
+    """
+    if closing_date is None:
         return False
-    if "T" in c_str:
+    ref_date = reference_date.date() if isinstance(reference_date, datetime) else reference_date
+
+    # 1. Direct datetime / date objects
+    if isinstance(closing_date, datetime):
+        return closing_date.date() < ref_date
+    if isinstance(closing_date, date):
+        return closing_date < ref_date
+
+    c_str = str(closing_date).strip()
+    if not c_str or c_str.lower() in ("rolling / unspecified", "none", "nan", "rolling", "asap"):
+        return False
+
+    # 2. Match YYYY-MM-DD, YYYY.MM.DD, YYYY/MM/DD (with optional time / text)
+    match_iso = re.search(r"(\d{4})[.\-/](\d{1,2})[.\-/](\d{1,2})", c_str)
+    if match_iso:
         try:
-            date_part = c_str.split("T")[0]
-            parts = [int(p) for p in date_part.split("-")]
-            closing_dt = datetime(parts[0], parts[1], parts[2])
-            return closing_dt < datetime(2026, 9, 18)
+            y, m, d = int(match_iso.group(1)), int(match_iso.group(2)), int(match_iso.group(3))
+            return date(y, m, d) < ref_date
         except Exception:
-            return False
+            pass
+
+    # 3. Match DD/MM/YYYY or DD-MM-YYYY
+    match_dmy = re.search(r"(\d{1,2})[.\-/](\d{1,2})[.\-/](\d{4})", c_str)
+    if match_dmy:
+        try:
+            d, m, y = int(match_dmy.group(1)), int(match_dmy.group(2)), int(match_dmy.group(3))
+            return date(y, m, d) < ref_date
+        except Exception:
+            pass
+
     return False
 
 
@@ -790,6 +814,11 @@ def enhance_uk_top_targets_sheet(ws):
         cell_c = ws.cell(r, 3)
         cell_c.font = Font(name="Calibri", size=10, bold=True, color="1F4E79")
         cell_c.alignment = Alignment(horizontal="left", vertical="center")
+
+        cell_k = ws.cell(r, 11)
+        if cell_k.hyperlink:
+            cell_k.font = Font(name="Calibri", size=10, color="0563C1", underline="single")
+            cell_k.alignment = Alignment(horizontal="center", vertical="center")
 
     ws.freeze_panes = "D2"
     ws.auto_filter.ref = f"A1:L{ws.max_row}"

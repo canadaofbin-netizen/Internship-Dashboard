@@ -212,7 +212,22 @@ class TestCEOOrchestration(unittest.TestCase):
                 self.assertGreaterEqual(dt_part, "2026-09-18", f"Expired role found at row {r}: {cdate}")
 
         # Verify exact counts and sections in remaining sheets
-        self.assertEqual(wb["1.UK_Top_Targets"].max_row, 20, "1.UK_Top_Targets must have 20 rows (19 targets)")
+        ws_uk_targets = wb["1.UK_Top_Targets"]
+        self.assertEqual(ws_uk_targets.max_row, 20, "1.UK_Top_Targets must have 20 rows (19 targets)")
+        for r in range(2, ws_uk_targets.max_row + 1):
+            cell_k = ws_uk_targets.cell(r, 11)
+            comp_name = ws_uk_targets.cell(r, 3).value
+            self.assertIsNotNone(cell_k.hyperlink, f"Row {r} ({comp_name}) in 1.UK_Top_Targets must have a valid hyperlink")
+            target_url = cell_k.hyperlink.target or ""
+            self.assertTrue(
+                target_url.startswith("http://") or target_url.startswith("https://"),
+                f"Row {r} ({comp_name}) hyperlink must start with http/https, got '{target_url}'",
+            )
+        # Verify specific critical mappings that must not be shifted
+        self.assertIn("virtu", (ws_uk_targets.cell(18, 11).hyperlink.target or "").lower())
+        self.assertIn("mavensecurities", (ws_uk_targets.cell(19, 11).hyperlink.target or "").lower())
+        self.assertIn("smartrecruiters.com/ttp1", (ws_uk_targets.cell(20, 11).hyperlink.target or "").lower())
+
         self.assertEqual(
             wb["3.KR_타임라인_우선순위"].max_row, 64, "3.KR_타임라인_우선순위 must have 64 rows (63 opportunities)"
         )
@@ -419,6 +434,38 @@ class TestCEOOrchestration(unittest.TestCase):
         self.assertTrue(rule_content.startswith("---\n"), "Rule must have YAML frontmatter")
         self.assertIn("description:", rule_content)
         self.assertIn("AGENTS.md", rule_content)
+
+    def test_is_uk_expired_comprehensive_edge_cases(self):
+        """Tests that is_uk_expired robustly handles datetime objects, date objects,
+        ISO strings without 'T', Korean deadline strings, and rolling indicators.
+        """
+        from datetime import date, datetime
+
+        from consolidate_excel_ssot import is_uk_expired
+
+        # Cases strictly before 2026-09-18 (should return True)
+        self.assertTrue(is_uk_expired(datetime(2026, 9, 15, 0, 0)))
+        self.assertTrue(is_uk_expired(date(2026, 9, 15)))
+        self.assertTrue(is_uk_expired("2026-09-15"))
+        self.assertTrue(is_uk_expired("2026-09-15 00:00:00"))
+        self.assertTrue(is_uk_expired("2026.09.15"))
+        self.assertTrue(is_uk_expired("2026-09-13 마감"))
+        self.assertTrue(is_uk_expired("2026-09-17T23:59:59.000Z"))
+
+        # Cases on or after 2026-09-18 (should return False)
+        self.assertFalse(is_uk_expired("2026-09-18T00:00:00.000Z"))
+        self.assertFalse(is_uk_expired("2026-09-18"))
+        self.assertFalse(is_uk_expired(datetime(2026, 9, 18, 0, 0)))
+        self.assertFalse(is_uk_expired("2026-09-19T00:00:00.000Z"))
+        self.assertFalse(is_uk_expired("2026-10-21 마감"))
+        self.assertFalse(is_uk_expired("2026-12-31 마감"))
+
+        # Rolling, unspecified, None (should return False)
+        self.assertFalse(is_uk_expired("Rolling / Unspecified"))
+        self.assertFalse(is_uk_expired("Rolling"))
+        self.assertFalse(is_uk_expired("Rolling (조기마감 주의)"))
+        self.assertFalse(is_uk_expired(None))
+        self.assertFalse(is_uk_expired(""))
 
 
 if __name__ == "__main__":
