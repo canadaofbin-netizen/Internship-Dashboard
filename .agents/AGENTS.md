@@ -46,7 +46,7 @@
 | **Study Dates / Period** | December 2024 – April 2025 (전체 과정: 2024–2025) | 포털 기재 공인 수료 기간 |
 | **Attendance / Mode** | Full time / In person (전일제 / 대면 수업) | 정규 주간 대면 과정 |
 | **Certification Date** | 01/04/2025 (2025년 4월 1일) | OSSD 학위 공인 발급일 |
-| **UCL Admission 4U Top 6** | **Top 6 4U Average: 93.17%** (UCL 심리학과 합격 공식 산출 기준) | • **SBI4U** (Biology 12): **96**<br/>• **HSB4U** (Challenge & Change in Society 12): **96**<br/>• **MHF4U** (Advanced Functions 12): **95**<br/>• **LKKDU** (Native Korean 12): **95**<br/>• **CGW4U** (World Issues 12): **95**<br/>• **ENG4U** (English 12): **82**<br/>• *MCV4U* (Calculus & Vectors 12): 이수 |
+| **UCL Admission 4U Top 6** | **Top 6 4U Average: 93.33%** (UCL 공식 산출 기준 / 비영어 Best 6 평균: **95.50%**) | • **SBI4U** (Biology 12): **96**<br/>• **HSB4U** (Challenge & Change in Society 12): **96**<br/>• **MHF4U** (Advanced Functions 12): **96**<br/>• **MCV4U** (Calculus & Vectors 12): **95**<br/>• **LKKDU** (Native Korean 12): **95**<br/>• **CGW4U** (World Issues 12): **95**<br/>• **ENG4U** (English 12): **82** |
 | **Foundation & ESL Modules** | • MCR3U (Functions 11): **86**<br/>• ENG3U (English 11): **80**<br/>• ESLDO (ESL Level 4): **80**<br/>• ESLEO (ESL Level 5): **67** | 11학년 및 ESL 브릿지 이수 성적 |
 | **Honors & Awards** | **Gold Medal**, Mathematics and Statistics Application Competition (수학·통계 응용 경진대회 금상 수상) | 대한민국 이혼율-출산율 상관관계 및 경제 위기 데이터 통계 분석 모델 |
 | **Key Extracurriculars** | **Suicide Prevention Club Volunteer (2 Years)** (청소년 자살예방 동아리 2년 봉사) | 교내 위기 학생 상담 연계, 심리적 안정 지원 및 공감적 경청 |

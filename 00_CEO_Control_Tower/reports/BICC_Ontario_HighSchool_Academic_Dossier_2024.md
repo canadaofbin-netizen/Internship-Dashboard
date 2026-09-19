@@ -35,16 +35,16 @@ tags:
 
 ### 1.1 Official Academic Module Transcript & Verified Grades
 
-#### Grade 12 (4U) — UCL Admission Official Baseline (Top 6 Average: 93.17%)
+#### Grade 12 (4U) — UCL Admission Official Baseline (Top 6 Average: 93.33% / Best 6: 95.50%)
 | Completion Date | Course Code | Course Title | Level | Official Final Grade | UCL Admission Role |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **01/11/2024** | **SBI4U** | **Biology** | Grade 12 | **96%** | Core UCL Science Requirement |
 | **01/03/2024** | **HSB4U** | **Challenge and Change in Society** | Grade 12 | **96%** | Social & Behavioral Sciences |
-| **01/06/2024** | **MHF4U** | **Advanced Functions** | Grade 12 | **95%** | Core Quantitative Requirement |
+| **01/06/2024** | **MHF4U** | **Advanced Functions** | Grade 12 | **96%** | Core Quantitative Requirement |
 | **01/03/2025** | **LKKDU** | **Native Korean** | Grade 12 | **95%** | Language & Humanities Stream |
 | **01/03/2025** | **CGW4U** | **World Issues: A Geographic Analysis** | Grade 12 | **95%** | Social Sciences Stream |
+| **01/11/2024** | **MCV4U** | **Calculus and Vectors** | Grade 12 | **95%** | Advanced Mathematics & Quantitative Stream |
 | **01/11/2024** | **ENG4U** | **English** | Grade 12 | **82%** | Academic English & Literature |
-| **01/11/2024** | **MCV4U** | **Calculus and Vectors** | Grade 12 | *Completed* | Advanced Mathematics Stream |
 
 #### Grade 11 (3U) & ESL Foundation Modules
 | Completion Date | Course Code | Course Title | Level | Official Grade |
