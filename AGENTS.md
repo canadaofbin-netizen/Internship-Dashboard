@@ -37,17 +37,20 @@
 | **Visa Sponsorship** | **Yes** (스폰서십 필요) | 졸업 후 장기 정규직 전환 시에만 Skilled Worker 필요 |
 | **Sponsorship Explanation** | *"I am an undergraduate student at University College London (UCL) holding a valid UK Student Route visa, legally permitting full-time employment during university vacations for this internship without sponsorship. Upon graduation in June 2028, I am eligible for the 2-year unsponsored Graduate Route visa, granting full working rights with zero employer sponsorship required. I would only require Skilled Worker visa sponsorship thereafter for subsequent long-term permanent employment."* | 비자 서술형 표준 문안 (Graduate Route 2년 무스폰서십 혜택 명시) |
 
-### 1.2.1 고등학교 학력 (High School Ground Truth - BICC OSSD)
+### 1.2.1 고등학교 학력 및 성적 (High School Ground Truth - BICC OSSD)
 | 항목 | 기준 입력값 (Ground Truth) | 비고 및 주의사항 |
 | :--- | :--- | :--- |
 | **High School** | Birmingham International Collegiate of Canada (BICC) | 캐나다 온타리오주 교육부 인가 사립학교 (BSID: 668875) |
 | **School Location** | Toronto, Ontario, Canada | 캐나다 토론토 |
 | **Diploma / Degree** | Ontario Secondary School Diploma (OSSD) | 온타리오 고등학교 졸업장 (University Prep Stream) |
-| **Study Period** | January 2024 – March 2025 | 2024–2025 (Spring, Summer II, Fall, Winter 세션 이수) |
-| **Graduation Status** | Graduated / Diploma Conferred | OSSD 고교 졸업 완료 |
-| **Core STEM & Bio Courses** | Calculus & Vectors (MCV4U), Advanced Functions (MHF4U), Biology (SBI4U), Nutrition & Health (HFA4U) | 미적분학/벡터, 심화함수, 생물학(도파민/유전학), 영양건강학 이수 |
-| **Core Humanities Courses** | Grade 12 English (ENG4U), Grade 11 English (ENG3U), ESL Level 5 (ESLEO), Native Korean (LKKDU) | Life of Pi 문학 비평, 영문 에세이, 브랜드 기획, 한글 비평 이수 |
-| **Academic Projects** | 1) Wildlife Derivatives & Vector Geometry (MCV4U)<br/>2) Wave Interference & Hologram Physics (MHF4U)<br/>3) Dopamine Detox & Receptor Pathways (SBI4U)<br/>4) One Pot Dishes 54p Cookbook & Malik Family Capstone (HFA4U)<br/>5) Green Bowls Pure Greens Bibimbap Pitch (ENG4U) | 포털 내 고교 학업 성과 및 프로젝트 문항 답변용 SSOT |
+| **Study Dates / Period** | December 2024 – April 2025 (전체 과정: 2024–2025) | 포털 기재 공인 수료 기간 |
+| **Attendance / Mode** | Full time / In person (전일제 / 대면 수업) | 정규 주간 대면 과정 |
+| **Certification Date** | 01/04/2025 (2025년 4월 1일) | OSSD 학위 공인 발급일 |
+| **Official Module Grades** | • MHF4U (Advanced Functions 12): **96** (01/06/24)<br/>• HSB4U (Challenge & Change in Society 12): **96** (01/03/24)<br/>• MCR3U (Functions 11): **86** (01/03/24)<br/>• ENG3U (English 11): **80** (01/08/24)<br/>• ESLDO (ESL Level 4): **80** (01/03/24)<br/>• ESLEO (ESL Level 5): **67** (01/06/24)<br/>• MCV4U (Calculus & Vectors 12): 이수 (01/11/24)<br/>• SBI4U (Biology 12): 이수 (01/11/24)<br/>• ENG4U (English 12): 이수 (01/11/24)<br/>• LKKDU (Korean 12): 이수 (01/03/25)<br/>• CGW4U (World Issues 12): 이수 (01/03/25) | 공식 학적 이수 및 성적 원본 데이터 |
+| **Honors & Awards** | **Gold Medal**, Mathematics and Statistics Application Competition (수학·통계 응용 경진대회 금상 수상) | 대한민국 이혼율-출산율 상관관계 및 경제 위기 데이터 통계 분석 모델 |
+| **Key Extracurriculars** | **Suicide Prevention Club Volunteer (2 Years)** (청소년 자살예방 동아리 2년 봉사) | 교내 위기 학생 상담 연계, 심리적 안정 지원 및 공감적 경청 |
+| **Academic Projects** | 1) Wildlife Derivatives & 3D Vector Geometry (MCV4U)<br/>2) Wave Interference & Hologram Physics (MHF4U)<br/>3) Dopamine Pathways & Digital Addiction (SBI4U)<br/>4) One Pot Dishes 54p Cookbook & Halal Meal Plan (HFA4U)<br/>5) Green Bowls Pure Greens Bibimbap Pitch (ENG4U) | 포털 내 학업 성과 및 프로젝트 답변용 SSOT |
+| **Personal Statement SSOT** | 1) **적응 및 환경 심리학**: 캐나다 정착기 언어 장벽 극복, 환경 변화가 인간 심리에 미치는 영향, 외부 자극에 따른 PTSD 환자의 해마 및 편도체 뇌 활성화 패턴 연구<br/>2) **인지심리 및 반사실적 사고**: 최인철 '프레임', 닐 로즈(Neal Roese)의 '반사실적 사고의 기능적 기초' 및 MBTI T-F 지표 분석<br/>3) **데이터 통계 역량**: 존 가트맨 '사랑의 과학' 분석 기반 통계적 사고 확립 및 수학·통계 경진대회 금상 수상<br/>4) **임상 및 치료 지향**: 2년간 자살예방 봉사, 개인별 기질과 환경을 통합 고려하는 영국 유학 및 UCL 심리학 진학 동기 | 지원서 에세이/자기소개서/동기 문항 표준 근거 문안 |
 
 ### 1.3 프로필 링크 및 제출 서류 (Links & Documents)
 | 항목 | 기준 입력값 (Ground Truth) | 비고 및 주의사항 |

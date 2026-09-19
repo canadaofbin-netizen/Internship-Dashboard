@@ -28,8 +28,32 @@ tags:
 - **BSID**: 668875
 - **Curriculum / Diploma**: Ontario Secondary School Diploma (OSSD)
 - **Academic Stream**: University Preparation (U-level / Level 4 Courses)
-- **Study Period**: 2024 – 2025 (Spring 2024, Summer II 2024, Fall 2024, Winter 2025)
+- **Study Dates**: December 2024 – April 2025 (전체 학업 과정: 2024–2025)
+- **Attendance Type & Mode**: Full time / In person
+- **Certification Date**: 01/04/2025 (April 1, 2025)
 - **Candidate Name**: Kyubin Yun (윤규빈)
+
+### 1.1 Official Academic Module Transcript & Verified Grades
+| Completion Date | Course Code | Course Title | Level | Official Grade |
+| :--- | :--- | :--- | :--- | :--- |
+| **01/06/2024** | **MHF4U** | Advanced Functions | Grade 12 | **96%** |
+| **01/03/2024** | **HSB4U** | Challenge and Change in Society | Grade 12 | **96%** |
+| **01/03/2024** | **MCR3U** | Functions | Grade 11 | **86%** |
+| **01/08/2024** | **ENG3U** | English | Grade 11 | **80%** |
+| **01/03/2024** | **ESLDO** | English as a Second Language Level 4 | Level 4 | **80%** |
+| **01/06/2024** | **ESLEO** | English as a Second Language Level 5 | Level 5 | **67%** |
+| **01/11/2024** | **MCV4U** | Calculus and Vectors | Grade 12 | *Completed* |
+| **01/11/2024** | **SBI4U** | Biology | Grade 12 | *Completed* |
+| **01/11/2024** | **ENG4U** | English | Grade 12 | *Completed* |
+| **01/03/2025** | **LKKDU** | Native Korean | Grade 12 | *Completed* |
+| **01/03/2025** | **CGW4U** | World Issues: A Geographic Analysis | Grade 12 | *Completed* |
+
+### 1.2 Honors, Competitions & Leadership Activities
+- **Gold Medal, Mathematics and Statistics Application Competition**:
+  - Developed a comprehensive statistical model analyzing divorce rates in South Korea (>40%) and their macro-level correlation with declining birth rates and economic shocks.
+- **Suicide Prevention Club Volunteer (2 Years)**:
+  - Recommended by school counselor for high empathy and active listening skills.
+  - Provided peer psychological stability, facilitated counselor handoffs, and learned client-centered clinical support firsthand.
 
 ---
 
