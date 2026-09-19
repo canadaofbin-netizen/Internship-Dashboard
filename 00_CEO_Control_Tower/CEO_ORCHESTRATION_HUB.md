@@ -7,7 +7,7 @@
 ## 📌 핵심 바로가기 및 마스터 자산 (Master Assets)
 
 - **통합 마스터 엑셀 트래커 (SSOT)**: [Master_Internship_Tracker_2027_SSOT.xlsx](file:///g:/My%20Drive/Kyubin_Yun_Workspace/04_Internship/Master_Internship_Tracker_2027_SSOT.xlsx)
-  - 글로벌 BCI 28개사, 영국 685개 프로그램(L1 19개 + 노이즈/마감 정제 666개), 한국 63개 고영향 기회 등 776개 전체 데이터 통합 및 직결 링크 탑재
+  - 글로벌 BCI 28개사, 영국 91개 엄선 프로그램(L1 19개 + AI/DS/Tech Consulting 72개), 영국 BCI 26선, 한국 63개 고영향 기회 등 208개 핵심 데이터 통합 및 직결 링크 탑재
 - **세션 디스패치 및 복귀 프로토콜**: [HANDOFF_PROTOCOLS.md](file:///g:/My%20Drive/Kyubin_Yun_Workspace/04_Internship/00_CEO_Control_Tower/HANDOFF_PROTOCOLS.md)
 - **머신러닝/에이전트 세션 레지스트리**: [CHATROOM_REGISTRY.json](file:///g:/My%20Drive/Kyubin_Yun_Workspace/04_Internship/00_CEO_Control_Tower/CHATROOM_REGISTRY.json)
 - **CEO 오케스트레이션 거버넌스 규칙**: [Rule: CEO Orchestration Protocol](file:///g:/My%20Drive/Kyubin_Yun_Workspace/04_Internship/.agents/rules/ceo-orchestration-protocol.md)
@@ -25,7 +25,7 @@
 | 트랙 ID | 트랙 명칭 (Track Name) | 대상 도메인 및 기업군 | 규모 및 데이터 현황 | 현재 운영 상태 | 담당 시트 (SSOT Sheet) |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **TRACK-A** | **Global BCI & Neurotech** | Apple, Google, Meta, Neuralink 등 글로벌 탑티어 BCI | 28개 타깃 기업, 84명 핵심 연구자 | 연구 및 네트워킹 대기 | `6.Global_BCI_Map` / `7.BCI_Research_DB` |
-| **TRACK-B** | **UK 2027 Summer Tech & Fin** | Palantir, Tower Research, Man Group, Trackr 680+선 | 685개 프로그램 (L1 19개 타깃 엄선 + 666개 노이즈/마감 필터링) | **즉시 지원 착수 (Palantir 등)** | `1.UK_Top_Targets` / `2.UK_Tech_Quant_Finance` |
+| **TRACK-B** | **UK 2027 Summer Tech & Fin** | Palantir, Tower Research, Man Group, AI/ML·Data Science·Startups 72선, 영국 BCI 26선 | 117개 기회 (L1 19개 타깃 + AI/DS/Tech Consulting 72개 + 영국 BCI 생태계 26개) | **즉시 지원 착수 (Palantir 등)** | `UK_BCI` / `1.UK_Top_Targets` / `2.UK_Tech_Quant_Finance` |
 | **TRACK-C** | **Korea High-Impact Careers** | KAIST BCI 랩, 당근/토스 DA/Product, 베인/맥킨지 RA, 삼성전자, 네이버, 카카오 | 63개 전수 검증 기회 (6대 섹터) | 타임라인 모니터링 | `3.KR_타임라인_우선순위` / `4.KR_Tech_BCI` / `5.KR_전략_대기업_금융` |
 | **TRACK-D** | **Data Science & Tech Prep** | 머신러닝 로드맵, 파이썬 DS, 코딩테스트/OA/SJT | 2대 핵심 로드맵 + 실전 프로젝트 | 상시 역량 강화 | `03_Data_Science_Roadmap` |
 

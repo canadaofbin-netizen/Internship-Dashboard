@@ -112,6 +112,7 @@ class TestCEOOrchestration(unittest.TestCase):
 
         expected_sheets = [
             "0.CEO_Dashboard",
+            "UK_BCI",
             "1.UK_Top_Targets",
             "2.UK_Tech_Quant_Finance",
             "3.KR_타임라인_우선순위",
@@ -120,13 +121,14 @@ class TestCEOOrchestration(unittest.TestCase):
             "6.Global_BCI_Map",
             "7.BCI_Research_DB",
         ]
-        self.assertEqual(len(wb.sheetnames), 8, f"Expected exactly 8 sheets, got {len(wb.sheetnames)}: {wb.sheetnames}")
+        self.assertEqual(len(wb.sheetnames), 9, f"Expected exactly 9 sheets, got {len(wb.sheetnames)}: {wb.sheetnames}")
         for sheet_name in expected_sheets:
             self.assertIn(sheet_name, wb.sheetnames, f"Sheet {sheet_name} missing from Master SSOT Excel!")
 
         # Verify Tab Colors
         expected_tab_colors = {
             "0.CEO_Dashboard": "D4AF37",
+            "UK_BCI": "1F4E79",
             "1.UK_Top_Targets": "1F4E79",
             "2.UK_Tech_Quant_Finance": "1F4E79",
             "3.KR_타임라인_우선순위": "C00000",
@@ -189,7 +191,7 @@ class TestCEOOrchestration(unittest.TestCase):
         # Verify noise removal, expired purging, and exact role counts in 2.UK_Tech_Quant_Finance
         ws_uk_tqf = wb["2.UK_Tech_Quant_Finance"]
         self.assertEqual(
-            ws_uk_tqf.max_row, 667, "2.UK_Tech_Quant_Finance must have exactly 667 rows (1 header + 666 roles)"
+            ws_uk_tqf.max_row, 73, "2.UK_Tech_Quant_Finance must have exactly 73 rows (1 header + 72 roles)"
         )
         tech_cnt = sum(
             1 for r in range(2, ws_uk_tqf.max_row + 1) if ws_uk_tqf.cell(r, 2).value == "Tech & Software / AI"
@@ -197,11 +199,17 @@ class TestCEOOrchestration(unittest.TestCase):
         fin_cnt = sum(
             1 for r in range(2, ws_uk_tqf.max_row + 1) if ws_uk_tqf.cell(r, 2).value == "Quant & High-Finance"
         )
-        self.assertEqual(tech_cnt, 276, f"Expected 276 Tech roles, got {tech_cnt}")
-        self.assertEqual(fin_cnt, 390, f"Expected 390 Finance roles, got {fin_cnt}")
+        self.assertEqual(tech_cnt, 72, f"Expected 72 Tech roles, got {tech_cnt}")
+        self.assertEqual(fin_cnt, 0, f"Expected 0 Finance roles, got {fin_cnt}")
 
+        target_tags = {"AI and Machine Learning", "Data Science", "Tech Consulting", "Startups"}
         for r in range(2, ws_uk_tqf.max_row + 1):
             cat = str(ws_uk_tqf.cell(r, 5).value or "")
+            tags = [t.strip() for t in cat.split(",") if t.strip()]
+            self.assertTrue(
+                any(t in target_tags for t in tags),
+                f"Row {r} category '{cat}' does not contain #1, #2, or #5 tags",
+            )
             self.assertNotIn("Pensions and Insurance", cat)
             self.assertNotIn("Accounting and Audit", cat)
             self.assertNotIn("Real Estate", cat)

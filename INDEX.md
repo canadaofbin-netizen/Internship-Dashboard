@@ -25,6 +25,7 @@ updated: 2026-09-17
 - **가시 브라우저 실행 원칙**: [Rule: Visible Browser Protocol](file:///g:/My%20Drive/Kyubin_Yun_Workspace/04_Internship/.agents/rules/visible-browser-protocol.md)
 - **최종 제출 자동 클릭 금지 원칙**: [Rule: Zero Auto-Submit](file:///g:/My%20Drive/Kyubin_Yun_Workspace/04_Internship/.agents/rules/zero-auto-submit.md)
 - **마스터 엑셀 트래커 아키텍처 규칙**: [Rule: Excel Tracker Architecture](file:///g:/My%20Drive/Kyubin_Yun_Workspace/04_Internship/.agents/rules/excel-tracker-architecture.md)
+- **딥테크 실사 표준 규격 및 선 컨펌 규칙**: [Rule: Deep-Tech Company Due-Diligence Protocol](file:///g:/My%20Drive/Kyubin_Yun_Workspace/04_Internship/.agents/rules/deep-tech-company-due-diligence.md)
 - **워크스페이스 린팅 규칙**: [Rule: Workspace Linting](file:///g:/My%20Drive/Kyubin_Yun_Workspace/04_Internship/.agents/rules/workspace-linting.md)
 - **지원서 작성 자동화 스킬**: [Skill: Apply](file:///g:/My%20Drive/Kyubin_Yun_Workspace/04_Internship/.agents/skills/apply/SKILL.md)
 - **글로벌 인턴십 리서치 스킬**: [Skill: Research](file:///g:/My%20Drive/Kyubin_Yun_Workspace/04_Internship/.agents/skills/research/SKILL.md)
@@ -53,6 +54,9 @@ updated: 2026-09-17
 - **통합 단일 진실 공급원(SSOT) 마스터 엑셀**: [Master_Internship_Tracker_2027_SSOT.xlsx](file:///g:/My%20Drive/Kyubin_Yun_Workspace/04_Internship/Master_Internship_Tracker_2027_SSOT.xlsx) (글로벌 BCI, 영국 테크/금융, 한국 55개 고영향 기회 전수 통합)
 - **차기 지원 대상 및 현황 리스트**: [Next_Internship_Applications_List.md](file:///g:/My%20Drive/Kyubin_Yun_Workspace/04_Internship/00_CEO_Control_Tower/reports/Next_Internship_Applications_List.md)
 - **글로벌 BCI 엔터프라이즈 도시에**: [Global_BCI_Enterprise_Internship_Dossier_2027.md](file:///g:/My%20Drive/Kyubin_Yun_Workspace/04_Internship/00_CEO_Control_Tower/reports/Global_BCI_Enterprise_Internship_Dossier_2027.md)
+- **한국 BCI · EEG 엔터프라이즈 도시에**: [Korea_BCI_EEG_Enterprise_Internship_Dossier_2027.md](file:///g:/My%20Drive/Kyubin_Yun_Workspace/04_Internship/00_CEO_Control_Tower/reports/Korea_BCI_EEG_Enterprise_Internship_Dossier_2027.md)
+- **삼성전자 BCI 심층 실사 도시에**: [Samsung_Electronics_BCI_Due_Diligence_Dossier_2027.md](file:///g:/My%20Drive/Kyubin_Yun_Workspace/04_Internship/00_CEO_Control_Tower/reports/Samsung_Electronics_BCI_Due_Diligence_Dossier_2027.md)
+- **룩시드랩스 심층 실사 도시에**: [Looxid_Labs_Due_Diligence_Dossier_2027.md](file:///g:/My%20Drive/Kyubin_Yun_Workspace/04_Internship/00_CEO_Control_Tower/reports/Looxid_Labs_Due_Diligence_Dossier_2027.md)
 - **국내외 인턴십 리서치 보고서**: [Korea_Internship_Research_Report_2026_2027.md](file:///g:/My%20Drive/Kyubin_Yun_Workspace/04_Internship/00_CEO_Control_Tower/reports/Korea_Internship_Research_Report_2026_2027.md)
 - **서브프로젝트 BCI 엑셀 트래커**: `2027_Summer2_Internship/2027_BCI_Internship_Tracker.xlsx`
 - **글로벌 BCI 원본 인턴십 데이터 엑셀 아카이브**: `data/source_trackers/2027_BCI_Internship_Tracker.xlsx`

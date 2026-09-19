@@ -37,6 +37,18 @@
 | **Visa Sponsorship** | **Yes** (스폰서십 필요) | 졸업 후 장기 정규직 전환 시에만 Skilled Worker 필요 |
 | **Sponsorship Explanation** | *"I am an undergraduate student at University College London (UCL) holding a valid UK Student Route visa, legally permitting full-time employment during university vacations for this internship without sponsorship. Upon graduation in June 2028, I am eligible for the 2-year unsponsored Graduate Route visa, granting full working rights with zero employer sponsorship required. I would only require Skilled Worker visa sponsorship thereafter for subsequent long-term permanent employment."* | 비자 서술형 표준 문안 (Graduate Route 2년 무스폰서십 혜택 명시) |
 
+### 1.2.1 고등학교 학력 (High School Ground Truth - BICC OSSD)
+| 항목 | 기준 입력값 (Ground Truth) | 비고 및 주의사항 |
+| :--- | :--- | :--- |
+| **High School** | Birmingham International Collegiate of Canada (BICC) | 캐나다 온타리오주 교육부 인가 사립학교 (BSID: 668875) |
+| **School Location** | Toronto, Ontario, Canada | 캐나다 토론토 |
+| **Diploma / Degree** | Ontario Secondary School Diploma (OSSD) | 온타리오 고등학교 졸업장 (University Prep Stream) |
+| **Study Period** | January 2024 – March 2025 | 2024–2025 (Spring, Summer II, Fall, Winter 세션 이수) |
+| **Graduation Status** | Graduated / Diploma Conferred | OSSD 고교 졸업 완료 |
+| **Core STEM & Bio Courses** | Calculus & Vectors (MCV4U), Advanced Functions (MHF4U), Biology (SBI4U), Nutrition & Health (HFA4U) | 미적분학/벡터, 심화함수, 생물학(도파민/유전학), 영양건강학 이수 |
+| **Core Humanities Courses** | Grade 12 English (ENG4U), Grade 11 English (ENG3U), ESL Level 5 (ESLEO), Native Korean (LKKDU) | Life of Pi 문학 비평, 영문 에세이, 브랜드 기획, 한글 비평 이수 |
+| **Academic Projects** | 1) Wildlife Derivatives & Vector Geometry (MCV4U)<br/>2) Wave Interference & Hologram Physics (MHF4U)<br/>3) Dopamine Detox & Receptor Pathways (SBI4U)<br/>4) One Pot Dishes 54p Cookbook & Malik Family Capstone (HFA4U)<br/>5) Green Bowls Pure Greens Bibimbap Pitch (ENG4U) | 포털 내 고교 학업 성과 및 프로젝트 문항 답변용 SSOT |
+
 ### 1.3 프로필 링크 및 제출 서류 (Links & Documents)
 | 항목 | 기준 입력값 (Ground Truth) | 비고 및 주의사항 |
 | :--- | :--- | :--- |
@@ -223,6 +235,7 @@ PDF 자동 파싱이나 텍스트 복사 시 유입되는 추악한 서식 오�
 - [Rule: Visible Browser Protocol](file:///g:/My%20Drive/Kyubin_Yun_Workspace/04_Internship/.agents/rules/visible-browser-protocol.md) - 백그라운드 가상 브라우저 금지 및 네이버 웨일/전면 가시 브라우저 실행 의무 규칙.
 - [Rule: Zero Auto-Submit](file:///g:/My%20Drive/Kyubin_Yun_Workspace/04_Internship/.agents/rules/zero-auto-submit.md) - 최종 제출 버튼 자동 클릭 금지 및 Review 단계 정지 원칙.
 - [Rule: Excel Tracker Architecture](file:///g:/My%20Drive/Kyubin_Yun_Workspace/04_Internship/.agents/rules/excel-tracker-architecture.md) - 마스터 인턴십 트래커 엑셀 구조 및 하이퍼링크/안티 환각 규칙.
+- [Rule: Deep-Tech Company Due-Diligence Protocol](file:///g:/My%20Drive/Kyubin_Yun_Workspace/04_Internship/.agents/rules/deep-tech-company-due-diligence.md) - BCI 및 딥테크 기업 실사 표준 6대 영역 24개 세부 규격 및 선 컨펌 게이트 규칙.
 - [Rule: Workspace Linting](file:///g:/My%20Drive/Kyubin_Yun_Workspace/04_Internship/.agents/rules/workspace-linting.md) - Cookiecutter Data Science 디렉터리 구조 및 Python 코드 린팅 가이드라인.
 
 ### Skills (`.agents/skills/`)

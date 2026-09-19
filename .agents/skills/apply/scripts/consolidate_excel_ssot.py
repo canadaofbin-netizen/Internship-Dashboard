@@ -260,7 +260,7 @@ def create_master_dashboard(ws):
 
     # Rows 6-8: KPI Metric Cards
     kpis = [
-        ("B", "C", "UK 2027 TECH & FINANCE", "685 Curated Roles", "Palantir (L1/L2 19선), 666 Trackr Roles (Noise & Expired Purged)"),
+        ("B", "C", "UK 2027 TECH & FINANCE", "91 Curated Roles", "Palantir (L1/L2 19선), 72 High-Value Roles (AI/ML, Data Science, Tech Consulting & Startups)"),
         ("D", "D", "KOREA HIGH-IMPACT", "63 Verified Roles", "KAIST BCI, Daangn, Toss, Naver, Kakao, Samsung, Bain/McK"),
         ("E", "E", "GLOBAL BCI & NEUROTECH", "28 Firms / 84 Contacts", "Apple, Google, Meta, Neuralink, Synchron"),
         ("F", "G", "SYSTEM GOVERNANCE", "8-TAB SSOT / 100% AUDIT", "Zero Auto-Submit & Visible Whale Browser"),
@@ -335,9 +335,9 @@ def create_master_dashboard(ws):
             "2.UK_Tech_Quant_Finance",
             "2.UK_Tech_Quant_Finance",
             "UK 2027 Summer Tech & Finance",
-            "영국 Tech, SWE, AI, Quant, Trading 유효 프로그램",
-            "666개 프로그램",
-            "노이즈 79개사 및 마감 공고 18개사 전면 제거 완료",
+            "영국 AI/ML, Data Science, Tech Consulting & Startups 엄선 프로그램",
+            "72개 프로그램",
+            "SWE/Quant/노이즈 제거 후 AI/ML, Data Science, Tech Consulting/Startup 72선 엄선",
         ),
         (
             "3.KR_타임라인_우선순위",
@@ -555,7 +555,14 @@ def build_uk_tech_quant_finance_sheet(dst_ws, wb_uk):
     curr_row = 2
     seq_no = 1
 
-    # 1. Tech & Software / AI roles (276 active roles)
+    UK_TARGET_CATEGORIES = {
+        "AI and Machine Learning",
+        "Data Science",
+        "Tech Consulting",
+        "Startups",
+    }
+
+    # 1. Tech & Software / AI roles (Filtered to AI/ML, Data Science, Tech Consulting, Startups - 72 active roles)
     for r in range(2, ws_tech.max_row + 1):
         vals = [ws_tech.cell(r, c).value for c in range(1, ws_tech.max_column + 1)]
         cid = vals[1] if len(vals) > 1 else ""
@@ -564,6 +571,10 @@ def build_uk_tech_quant_finance_sheet(dst_ws, wb_uk):
         cdate = vals[6] if len(vals) > 6 else ""
 
         if is_uk_noise(cid, prog, cat) or is_uk_expired(cdate):
+            continue
+
+        tags = [t.strip() for t in str(cat or "").split(",") if t.strip()]
+        if not any(t in UK_TARGET_CATEGORIES for t in tags):
             continue
 
         dst_ws.row_dimensions[curr_row].height = 20
@@ -590,7 +601,7 @@ def build_uk_tech_quant_finance_sheet(dst_ws, wb_uk):
         seq_no += 1
         curr_row += 1
 
-    # 2. Quant & High-Finance roles (Noise & expired filtered, 390 active roles)
+    # 2. Quant & High-Finance roles (Filtered to target categories if any match)
     for r in range(2, ws_fin.max_row + 1):
         vals = [ws_fin.cell(r, c).value for c in range(1, ws_fin.max_column + 1)]
         cid = vals[1] if len(vals) > 1 else ""
@@ -599,6 +610,10 @@ def build_uk_tech_quant_finance_sheet(dst_ws, wb_uk):
         cdate = vals[6] if len(vals) > 6 else ""
 
         if is_uk_noise(cid, prog, cat) or is_uk_expired(cdate):
+            continue
+
+        tags = [t.strip() for t in str(cat or "").split(",") if t.strip()]
+        if not any(t in UK_TARGET_CATEGORIES for t in tags):
             continue
 
         dst_ws.row_dimensions[curr_row].height = 20

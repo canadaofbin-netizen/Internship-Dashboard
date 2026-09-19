@@ -13,8 +13,9 @@ graph LR
     CEO --> KR["🇰🇷 한국 권역 (Crimson)"]
     CEO --> BCI["🧠 글로벌 BCI (Purple)"]
     
-    UK --> UK1["1.UK_Top_Targets (L1/L2 엄선 19선)"]
-    UK --> UK2["2.UK_Tech_Quant_Finance (유효 선별 666선)"]
+    UK --> UK1["UK_BCI (영국 BCI 엔터프라이즈 & 펀드 26선)"]
+    UK --> UK2["1.UK_Top_Targets (L1/L2 엄선 19선)"]
+    UK --> UK3["2.UK_Tech_Quant_Finance (AI/DS/Tech Consulting 엄선 72선)"]
     
     KR --> KR1["3.KR_타임라인_우선순위 (63개 통합일정)"]
     KR --> KR2["4.KR_Tech_BCI (DA/Product/AI/뇌공학 41선)"]
@@ -26,18 +27,19 @@ graph LR
 
 ---
 
-## 📊 Master 8-Tab Architecture Overview
+## 📊 Master 9-Tab Architecture Overview
 
 | Tab # | Sheet Name | Color Theme | Domain Scope | Record Count | Description & Navigation Purpose |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Tab 0** | **`0.CEO_Dashboard`** | 🟡 Gold (`#D4AF37`) | Executive Control | KPI Cards + Baseline | 전체 7개 서브시트 직결 하이퍼링크, 포트폴리오 요약 및 지원자 기준 데이터 |
-| **Tab 1** | **`1.UK_Top_Targets`** | 🔵 Navy (`#1F4E79`) | UK L1/L2 Priority | 19개 최우선 타깃 | Palantir(Product Design/FDSE), Tower Research, Man Group 등 공식포털 단독 발굴 (마감 공고 정제) |
-| **Tab 2** | **`2.UK_Tech_Quant_Finance`** | 🔵 Navy (`#1F4E79`) | UK Tech & High-Finance | 666개 유효 프로그램 | Trackr UK 테크(276선) + 퀀트/금융(390선) 통합. 노이즈 79개사 및 마감 공고 18개사 전면 배제 |
-| **Tab 3** | **`3.KR_타임라인_우선순위`** | 🔴 Crimson (`#C00000`) | Korea Career Master | 63개 고영향 기회 | 국내 6대 섹터 통합 타임라인, 자소설닷컴/공식포털 교차검증, 마감 일정 및 우선순위 정렬 |
-| **Tab 4** | **`4.KR_Tech_BCI`** | 🔴 Crimson (`#C00000`) | Korea Tech / AI / BCI | 41개 기회 (3개 섹션) | DA/Product(19선) + AI Agent/LLM(11선) + EEG/BCI 뇌공학 연구실(KAIST 등 11선) 통합 (토스·네이버·카카오 신규 발굴 반영) |
-| **Tab 5** | **`5.KR_전략_대기업_금융`** | 🔴 Crimson (`#C00000`) | Korea Strategy / IB | 22개 기회 (3개 섹션) | 전략컨설팅 RA(Bain/McK 11선) + 대기업 해외대(삼성 5선) + 외국계 IB(6선) 통합 |
-| **Tab 6** | **`6.Global_BCI_Map`** | 🟣 Purple (`#7030A0`) | Global BCI Enterprise | 28개사 글로벌 맵 | Apple, Google, Meta, Neuralink 등 28개사 우선순위 맵 & 7번 시트 직결 링크 |
-| **Tab 7** | **`7.BCI_Research_DB`** | 🟣 Purple (`#7030A0`) | BCI Research Contacts | 84명 핵심 연구자 | 기업별 연구 적합도, PI/Lead Scientist 컨택, 전략 훅 (텔레메트리 G~K 은닉) |
+| **Tab 0** | **`0.CEO_Dashboard`** | 🟡 Gold (`#D4AF37`) | Executive Control | KPI Cards + Baseline | 전체 8개 서브시트 직결 하이퍼링크, 포트폴리오 요약 및 지원자 기준 데이터 |
+| **Tab 1** | **`UK_BCI`** | 🔵 Navy (`#1F4E79`) | UK BCI & Neurotech | 26개사/기관 | 영국 BCI 엔터프라이즈 JV/CVC, 뉴로테크 펀드, 국책 연구기관, 핵심 스케일업 26선 (Galvani, Stanhope AI, MintNeuro, Amber Therapeutics 등) |
+| **Tab 2** | **`1.UK_Top_Targets`** | 🔵 Navy (`#1F4E79`) | UK L1/L2 Priority | 19개 최우선 타깃 | Palantir(Product Design/FDSE), Tower Research, Man Group 등 공식포털 단독 발굴 (마감 공고 정제) |
+| **Tab 3** | **`2.UK_Tech_Quant_Finance`** | 🔵 Navy (`#1F4E79`) | UK AI/ML, Data Science, Startups | 72개 엄선 프로그램 | SWE/Quant/노이즈 제거 후 AI/ML, Data Science, Tech Consulting/Startup 72선 엄선 |
+| **Tab 4** | **`3.KR_타임라인_우선순위`** | 🔴 Crimson (`#C00000`) | Korea Career Master | 63개 고영향 기회 | 국내 6대 섹터 통합 타임라인, 자소설닷컴/공식포털 교차검증, 마감 일정 및 우선순위 정렬 |
+| **Tab 5** | **`4.KR_Tech_BCI`** | 🔴 Crimson (`#C00000`) | Korea Tech / AI / BCI | 41개 기회 (3개 섹션) | DA/Product(19선) + AI Agent/LLM(11선) + EEG/BCI 뇌공학 연구실(KAIST 등 11선) 통합 (토스·네이버·카카오 신규 발굴 반영) |
+| **Tab 6** | **`5.KR_전략_대기업_금융`** | 🔴 Crimson (`#C00000`) | Korea Strategy / IB | 22개 기회 (3개 섹션) | 전략컨설팅 RA(Bain/McK 11선) + 대기업 해외대(삼성 5선) + 외국계 IB(6선) 통합 |
+| **Tab 7** | **`6.Global_BCI_Map`** | 🟣 Purple (`#7030A0`) | Global BCI Enterprise | 28개사 글로벌 맵 | Apple, Google, Meta, Neuralink 등 28개사 우선순위 맵 & 7번 시트 직결 링크 |
+| **Tab 8** | **`7.BCI_Research_DB`** | 🟣 Purple (`#7030A0`) | BCI Research Contacts | 84명 핵심 연구자 | 기업별 연구 적합도, PI/Lead Scientist 컨택, 전략 훅 (텔레메트리 G~K 은닉) |
 
 ---
 
@@ -76,13 +78,13 @@ graph LR
 - **Reference**: `6.Global_BCI_Map` / `7.BCI_Research_DB`
 
 ### [TRACK-B] UK 2027 Summer Tech & Finance
-- **Target Scope**: Curated L1/L2 top-tier internships in London & UK (685 total opportunities: 19 Top Targets + 666 Trackr).
+- **Target Scope**: Curated L1/L2 top-tier internships in London & UK (91 total opportunities: 19 Top Targets + 72 Trackr AI/ML, Data Science, Tech Consulting & Startups).
 - **Key Targets**:
   - **Palantir Technologies**: *Product Designer, Internship* & *Forward Deployed Software Engineer (FDSE) Intern*
   - **Tower Research Capital & Jump Trading**: *Quantitative Trader/Researcher Summer 2027*
   - **Man Group**: *2027 Quant Researcher Summer Internship*
   - **American Express**: *AI Engineer Internship Programme - 2027*
-- **Noise & Expired Elimination**: Excluded 79 irrelevant noise positions (Audit, Tax, Accounting, Insurance 등) and 18 expired positions (Castleton Commodities closed 2026-09-13 등).
+- **Noise, Expired & Non-Target Elimination**: Excluded 79 irrelevant noise positions (Audit, Tax, Accounting, Insurance 등), 18 expired positions, and non-target tracks (pure SWE & Quant trading/development), retaining 72 high-value AI/ML, Data Science, Tech Consulting, and Startup roles.
 - **Reference**: `1.UK_Top_Targets` / `2.UK_Tech_Quant_Finance`
 
 ### [TRACK-C] Korea High-Impact Careers 2026–2027

@@ -44,6 +44,19 @@ alwaysApply: true
 | **Visa Sponsorship** | **Yes** (스폰서십 필요) | 정규직/졸업 후 전환 시 Skilled Worker 스폰서십 필요 |
 | **Sponsorship Explanation** | *"I am an undergraduate student at University College London (UCL) holding a valid UK Student Route visa, legally permitting full-time employment during university vacations for this internship without sponsorship. Upon graduation in June 2028, I am eligible for the 2-year unsponsored Graduate Route visa, granting full working rights with zero employer sponsorship required. I would only require Skilled Worker visa sponsorship thereafter for subsequent long-term permanent employment."* | 비자 서술형 표준 문안 (Graduate Route 2년 무스폰서십 혜택 명시) |
 
+### 2.1 고등학교 학력 (High School Ground Truth - BICC OSSD)
+
+| 항목 | 기준 입력값 (Ground Truth) | 비고 및 주의사항 |
+| :--- | :--- | :--- |
+| **High School** | Birmingham International Collegiate of Canada (BICC) | 캐나다 온타리오주 교육부 인가 사립학교 (BSID: 668875) |
+| **School Location** | Toronto, Ontario, Canada | 캐나다 토론토 |
+| **Diploma / Degree** | Ontario Secondary School Diploma (OSSD) | 온타리오 고등학교 졸업장 (University Prep Stream) |
+| **Study Period** | January 2024 – March 2025 | 2024–2025 (Spring, Summer II, Fall, Winter 세션 이수) |
+| **Graduation Status** | Graduated / Diploma Conferred | OSSD 고교 졸업 완료 |
+| **Core STEM & Bio Courses** | Calculus & Vectors (MCV4U), Advanced Functions (MHF4U), Biology (SBI4U), Nutrition & Health (HFA4U) | 미적분학/벡터, 심화함수, 생물학(도파민/유전학), 영양건강학 이수 |
+| **Core Humanities Courses** | Grade 12 English (ENG4U), Grade 11 English (ENG3U), ESL Level 5 (ESLEO), Native Korean (LKKDU) | Life of Pi 문학 비평, 영문 에세이, 브랜드 기획, 한글 비평 이수 |
+| **Academic Projects** | 1) Wildlife Derivatives & Vector Geometry (MCV4U)<br/>2) Wave Interference & Hologram Physics (MHF4U)<br/>3) Dopamine Detox & Receptor Pathways (SBI4U)<br/>4) One Pot Dishes 54p Cookbook & Malik Family Capstone (HFA4U)<br/>5) Green Bowls Pure Greens Bibimbap Pitch (ENG4U) | 포털 내 고교 학업 성과 및 프로젝트 문항 답변용 SSOT |
+
 ---
 
 ## 3. 프로필 링크 및 제출 서류 (Links & Documents)
